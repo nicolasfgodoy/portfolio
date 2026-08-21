@@ -152,6 +152,10 @@ function parseVideoUrl(url) {
   return { type: 'iframe', src: u };
 }
 
+function getGDriveDirectUrl(id) {
+  return `https://drive.google.com/uc?export=download&id=${id}`;
+}
+
 function buildEmbedSrc(parsed, autoplay = false) {
   if (parsed.type === 'youtube') {
     const params = new URLSearchParams({
@@ -169,12 +173,6 @@ function buildEmbedSrc(parsed, autoplay = false) {
     });
     if (autoplay) params.set('autoplay', '1');
     return `https://www.youtube.com/embed/${parsed.id}?${params}`;
-  }
-  if (parsed.type === 'instagram') {
-    return `https://www.instagram.com/reel/${parsed.id}/embed/captioned=0/`;
-  }
-  if (parsed.type === 'gdrive') {
-    return `https://drive.google.com/file/d/${parsed.id}/preview?autoplay=1`;
   }
   return parsed.src || '';
 }
@@ -362,34 +360,47 @@ function loadVideo(video) {
   const modalVideo    = document.getElementById('modal-video');
   const modalIg       = document.getElementById('modal-instagram');
 
-  if (parsed.type === 'youtube' || parsed.type === 'gdrive' || parsed.type === 'iframe') {
+  if (parsed.type === 'youtube' || parsed.type === 'iframe') {
     if (modalIframe) {
       modalIframe.src = buildEmbedSrc(parsed, true);
       modalIframe.style.display = 'block';
     }
     if (clickShield) clickShield.style.display = 'block';
+  } else if (parsed.type === 'gdrive' || parsed.type === 'native') {
+    // Player HTML5 Nativo limpo para Google Drive e arquivos .mp4/.webm
+    if (modalVideo) {
+      const streamSrc = parsed.type === 'gdrive' ? getGDriveDirectUrl(parsed.id) : parsed.src;
+      modalVideo.src = streamSrc;
+      modalVideo.loop = true;
+      modalVideo.controls = true;
+      modalVideo.playsInline = true;
+      modalVideo.style.display = 'block';
+      modalVideo.play().catch(() => {});
+    }
+    if (clickShield) clickShield.style.display = 'none';
   } else if (parsed.type === 'instagram') {
     if (modalIg) {
       modalIg.innerHTML = `
-        <iframe
-          src="${escHtml(buildEmbedSrc(parsed))}"
-          class="modal__ig-frame"
-          frameborder="0"
-          scrolling="no"
-          allowtransparency="true"
-          allow="encrypted-media"
-          title="Instagram Reel"
-        ></iframe>
+        <blockquote
+          class="instagram-media"
+          data-instgrm-captioned="false"
+          data-instgrm-permalink="https://www.instagram.com/reel/${parsed.id}/"
+          data-instgrm-version="14"
+          style="background: #000; border: 0; border-radius: 0; margin: 0; padding: 0; width: 100%; max-width: 100%; height: 100%; min-height: 100%;"
+        ></blockquote>
       `;
       modalIg.style.display = 'flex';
-    }
-    if (clickShield) clickShield.style.display = 'block';
-  } else if (parsed.type === 'native') {
-    if (modalVideo) {
-      modalVideo.src = parsed.src;
-      modalVideo.loop = true;
-      modalVideo.style.display = 'block';
-      modalVideo.play().catch(() => {});
+
+      // Processa o embed usando a API oficial do Instagram
+      if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === 'function') {
+        window.instgrm.Embeds.process(modalIg);
+      } else {
+        setTimeout(() => {
+          if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === 'function') {
+            window.instgrm.Embeds.process(modalIg);
+          }
+        }, 500);
+      }
     }
     if (clickShield) clickShield.style.display = 'none';
   }
