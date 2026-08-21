@@ -116,23 +116,13 @@ const FALLBACK_VIDEOS = [
    ============================================================ */
 
 async function fetchVideos() {
-  if (window.location.protocol === 'file:') {
-    return loadFallback();
-  }
   try {
-    const res = await fetch('./videos.json', { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return res.json();
-  } catch {
-    return loadFallback();
-  }
-}
-
-function loadFallback() {
-  try {
-    const stored = window.__PORTFOLIO_VIDEOS__;
-    if (Array.isArray(stored) && stored.length) return stored;
-  } catch (_) { /* noop */ }
+    const res = await fetch('./videos.json?t=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch (_) { /* fallback se fetch falhar */ }
   return FALLBACK_VIDEOS;
 }
 
