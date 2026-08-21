@@ -1,0 +1,729 @@
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --black:       #080808;
+  --surface-0:   #0e0e0e;
+  --surface-1:   #151515;
+  --surface-2:   #1e1e1e;
+  --surface-3:   #2a2a2a;
+  --white:       #f5f3ef;
+  --muted:       #666;
+  --muted-light: #999;
+
+  --accent:      oklch(72% 0.18 54);   /* âmbar quente */
+  --accent-dim:  oklch(60% 0.14 54);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+
+  --transition:  0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --grid-cols:   3;
+  --grid-gap:    3px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+img, iframe {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================================
+   FILM-GRAIN NOISE OVERLAY
+   ============================================================ */
+.noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  animation: grain 0.4s steps(1) infinite;
+}
+
+@keyframes grain {
+  0%  { background-position: 0 0; }
+  10% { background-position: -5% -10%; }
+  20% { background-position: -15% 5%; }
+  30% { background-position: 7% -25%; }
+  40% { background-position: -5% 25%; }
+  50% { background-position: -15% 10%; }
+  60% { background-position: 15% 0; }
+  70% { background-position: 0 15%; }
+  80% { background-position: 3% 35%; }
+  90% { background-position: -10% 10%; }
+  100%{ background-position: 0 0; }
+}
+
+/* ============================================================
+   PROFILE HEADER
+   ============================================================ */
+.profile {
+  background: var(--surface-0);
+  border-bottom: 1px solid var(--surface-2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.profile__inner {
+  max-width: 935px;
+  margin: 0 auto;
+  padding: 32px 24px 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+/* Avatar */
+.profile__avatar-wrap {
+  flex-shrink: 0;
+}
+
+.profile__avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--surface-0), var(--surface-0)) padding-box,
+    linear-gradient(135deg, var(--accent), oklch(65% 0.15 200)) border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile__avatar-placeholder {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+/* Info */
+.profile__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile__name {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 36px);
+  letter-spacing: 2px;
+  line-height: 1;
+  color: var(--white);
+}
+
+.profile__handle {
+  font-size: 13px;
+  color: var(--muted-light);
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+}
+
+.profile__stats {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin-top: 16px;
+}
+
+.profile__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.profile__stat-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 1px;
+  line-height: 1;
+  color: var(--white);
+}
+
+.profile__stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.profile__bio {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted-light);
+  line-height: 1.65;
+}
+
+.profile__cta {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 8px 20px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  transition: background var(--transition), color var(--transition);
+}
+
+.profile__cta:hover {
+  background: var(--accent);
+  color: var(--black);
+}
+
+/* ============================================================
+   FILTERS / TABS
+   ============================================================ */
+.filters {
+  max-width: 935px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--surface-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  padding: 12px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-top: 2px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: -1px;
+}
+
+.filter-btn:hover {
+  color: var(--white);
+}
+
+.filter-btn--active {
+  color: var(--white);
+  border-top-color: var(--accent);
+}
+
+/* ============================================================
+   VIDEO GRID
+   ============================================================ */
+.grid-section {
+  max-width: 935px;
+  margin: 0 auto;
+  padding: var(--grid-gap);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  gap: var(--grid-gap);
+}
+
+.grid__loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   VIDEO CARD
+   ============================================================ */
+.card {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  background: var(--surface-1);
+  overflow: hidden;
+  cursor: pointer;
+  list-style: none;
+}
+
+.card__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.5s ease;
+  filter: brightness(0.9) saturate(0.85);
+}
+
+.card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.82) 0%,
+    rgba(0,0,0,0.2) 45%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px 12px;
+}
+
+.card__play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__play-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.7);
+  opacity: 0;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.card__play-icon svg {
+  margin-left: 3px;
+}
+
+.card__category {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 2vw, 17px);
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  color: var(--white);
+  margin-top: 3px;
+}
+
+.card__duration {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white);
+  background: rgba(0,0,0,0.6);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.03em;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+/* Hover state */
+.card:hover .card__thumb {
+  transform: scale(1.06);
+  filter: brightness(0.75) saturate(1.1);
+}
+
+.card:hover .card__overlay {
+  opacity: 1;
+}
+
+.card:hover .card__play-icon {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.card:hover .card__duration {
+  opacity: 1;
+}
+
+/* Focus visible */
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Category-based color accent on hover */
+.card[data-category="Casamentos"]:hover .card__category { color: oklch(75% 0.17 18); }
+.card[data-category="Festas"]:hover .card__category      { color: oklch(75% 0.2 290); }
+.card[data-category="Corporativo"]:hover .card__category { color: oklch(72% 0.15 200); }
+.card[data-category="Teasers"]:hover .card__category     { color: var(--accent); }
+
+/* Thumbnail placeholder (sem imagem) */
+.card__thumb--placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--surface-2);
+}
+
+/* Badge Instagram */
+.card__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  line-height: 1.4;
+}
+
+.card__badge--ig {
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  color: #fff;
+}
+
+/* Hidden state for filter */
+.card--hidden {
+  display: none;
+}
+
+/* ============================================================
+   MODAL / LIGHTBOX — FULLSCREEN REELS
+   ============================================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal[aria-hidden="false"] {
+  pointer-events: auto;
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: #000;
+}
+
+/* Reel container — 9:16, altura máxima da tela */
+.modal__reel {
+  position: relative;
+  z-index: 1;
+  height: 100dvh;
+  width: min(100dvw, calc(100dvh * 9 / 16));
+  background: #000;
+  transform: scale(0.96);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.modal[aria-hidden="false"] .modal__reel {
+  transform: scale(1);
+}
+
+/* Video wrap — preenche o reel inteiro */
+.modal__video-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+/* iframe escala para cobrir 9:16 escondendo barras do YouTube */
+/* YouTube em 9:16: o player nativo é 16:9, então escalamos ~178% na vertical */
+.modal__iframe {
+  position: absolute;
+  /* sobra 10% em cada lado para cortar letterbox */
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  border: none;
+  pointer-events: auto;
+}
+
+.modal__native-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.modal__instagram {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.modal__ig-frame {
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  border: none;
+}
+
+/* Shield transparente — bloqueia cliques acidentais no iframe */
+.modal__click-shield {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* ============================================================
+   FILM BURN — transição ao abrir modal
+   ============================================================ */
+.film-burn {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.film-burn--active {
+  animation: film-burn-in 0.9s ease-out forwards;
+}
+
+@keyframes film-burn-in {
+  0% {
+    opacity: 1;
+    background:
+      radial-gradient(ellipse at 30% 40%, oklch(80% 0.22 54 / 0.95) 0%, transparent 55%),
+      radial-gradient(ellipse at 70% 60%, oklch(65% 0.28 30 / 0.9) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, #fff8e7 0%, transparent 40%),
+      #1a0800;
+    filter: brightness(2.5) saturate(1.8) contrast(1.2);
+  }
+  15% {
+    opacity: 1;
+    background:
+      radial-gradient(ellipse at 60% 30%, oklch(75% 0.25 45 / 0.85) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 70%, oklch(50% 0.2 20 / 0.7) 0%, transparent 45%),
+      #0d0500;
+    filter: brightness(1.8) saturate(2) contrast(1.4);
+  }
+  35% {
+    opacity: 0.7;
+    background:
+      radial-gradient(ellipse at 50% 50%, oklch(70% 0.18 50 / 0.5) 0%, transparent 70%),
+      #050200;
+    filter: brightness(1.2) saturate(1.5);
+  }
+  60% {
+    opacity: 0.3;
+    background: #000;
+    filter: brightness(1);
+  }
+  100% {
+    opacity: 0;
+    background: transparent;
+    filter: none;
+  }
+}
+
+/* Gradient overlay no rodapé — para legibilidade do texto */
+.modal__overlay-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 60px 20px 32px;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.75) 0%,
+    rgba(0,0,0,0.3) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.modal__category {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.modal__title {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 5vw, 28px);
+  letter-spacing: 1px;
+  line-height: 1.05;
+  color: var(--white);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+}
+
+/* Botão fechar — canto superior direito */
+.modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.85);
+  transition: background var(--transition), color var(--transition);
+}
+
+.modal__close:hover {
+  background: rgba(0,0,0,0.7);
+  color: var(--white);
+}
+
+/* Mobile: reel ocupa a tela inteira */
+@media (max-width: 600px) {
+  .modal {
+    padding: 0;
+  }
+
+  .modal__reel {
+    width: 100dvw;
+    height: 100dvh;
+    border-radius: 0;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — HEADER & GRID
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --grid-cols: 3;
+    --grid-gap: 2px;
+  }
+
+  .profile__inner {
+    padding: 20px 16px 16px;
+    gap: 20px;
+  }
+
+  .profile__avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .profile__avatar-placeholder {
+    font-size: 22px;
+  }
+
+  .profile__name {
+    font-size: 26px;
+  }
+
+  .profile__stats {
+    gap: 20px;
+  }
+
+  .profile__stat-value {
+    font-size: 18px;
+  }
+
+  .profile__bio {
+    display: none;
+  }
+
+  .profile__cta {
+    display: none;
+  }
+
+  .filters {
+    padding: 0 8px;
+  }
+
+  .filter-btn {
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  .grid-section {
+    padding: var(--grid-gap);
+  }
+}
+
+@media (max-width: 480px) {
+  .profile__stats {
+    gap: 16px;
+  }
+
+  .card__title {
+    font-size: 12px;
+  }
+}
