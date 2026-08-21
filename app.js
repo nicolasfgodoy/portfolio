@@ -12,57 +12,46 @@
 const FALLBACK_VIDEOS = [
   {
     "id": 1,
-    "title": "Vídeo 1",
-    "category": "Casamentos",
-    "date": "",
-    "location": "",
-    "description": "",
-    "thumbnail": "https://img.youtube.com/vi/I7pqmzxUXXc/hqdefault.jpg",
-    "videoUrl": "https://www.youtube.com/watch?v=I7pqmzxUXXc",
-    "duration": ""
-  },
-  {
-    "id": 2,
-    "title": "Vídeo 2",
+    "title": "Reel Instagram",
     "category": "Shows",
     "date": "",
     "location": "",
     "description": "",
-    "thumbnail": "https://img.youtube.com/vi/5Qag5em1IdM/hqdefault.jpg",
-    "videoUrl": "https://www.youtube.com/watch?v=5Qag5em1IdM",
+    "thumbnail": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80",
+    "videoUrl": "https://www.instagram.com/reel/DD-dT-Wic5q/",
+    "duration": ""
+  },
+  {
+    "id": 2,
+    "title": "Vídeo Drive 1",
+    "category": "Casamentos",
+    "date": "",
+    "location": "",
+    "description": "",
+    "thumbnail": "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&q=80",
+    "videoUrl": "https://drive.google.com/file/d/1Hu2-jUY94xgTimQYmXV-wqIB-yS-ii2Y/view?usp=drive_link",
     "duration": ""
   },
   {
     "id": 3,
-    "title": "Vídeo 3",
+    "title": "Vídeo Drive 2",
     "category": "Baladas",
     "date": "",
     "location": "",
     "description": "",
-    "thumbnail": "https://img.youtube.com/vi/8qQ0Jj8LVFo/hqdefault.jpg",
-    "videoUrl": "https://www.youtube.com/watch?v=8qQ0Jj8LVFo",
+    "thumbnail": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80",
+    "videoUrl": "https://drive.google.com/file/d/13LY70E7yiYwUdO8lqGdXxIQNoXXCChUM/view?usp=drive_link",
     "duration": ""
   },
   {
     "id": 4,
-    "title": "Vídeo 4",
+    "title": "Vídeo Drive 3",
     "category": "Teasers",
     "date": "",
     "location": "",
     "description": "",
-    "thumbnail": "https://img.youtube.com/vi/z20rooamh28/hqdefault.jpg",
-    "videoUrl": "https://www.youtube.com/watch?v=z20rooamh28",
-    "duration": ""
-  },
-  {
-    "id": 5,
-    "title": "Vídeo 5",
-    "category": "Corporativo",
-    "date": "",
-    "location": "",
-    "description": "",
-    "thumbnail": "https://img.youtube.com/vi/piRPUYjzUHE/hqdefault.jpg",
-    "videoUrl": "https://www.youtube.com/watch?v=piRPUYjzUHE",
+    "thumbnail": "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80",
+    "videoUrl": "https://drive.google.com/file/d/1Fu-Hc1q1ysCJK7E_A7vkSGmsbil-zvI_/view?usp=drive_link",
     "duration": ""
   }
 ];
@@ -121,6 +110,10 @@ function parseVideoUrl(url) {
   const igPost = u.match(/instagram\.com\/p\/([A-Za-z0-9_-]+)/);
   if (igPost) return { type: 'instagram', id: igPost[1] };
 
+  /* Google Drive */
+  const gdrive = u.match(/drive\.google\.com\/file\/d\/([A-Za-z0-9_-]+)/);
+  if (gdrive) return { type: 'gdrive', id: gdrive[1] };
+
   /* Arquivo de vídeo direto */
   if (/\.(mp4|webm|ogg)(\?|$)/i.test(u)) return { type: 'native', src: u };
 
@@ -148,6 +141,9 @@ function buildEmbedSrc(parsed, autoplay = false) {
   }
   if (parsed.type === 'instagram') {
     return `https://www.instagram.com/p/${parsed.id}/embed/`;
+  }
+  if (parsed.type === 'gdrive') {
+    return `https://drive.google.com/file/d/${parsed.id}/preview`;
   }
   return parsed.src || '';
 }
@@ -310,7 +306,7 @@ function loadVideo(video) {
 
   const parsed = parseVideoUrl(video.videoUrl);
 
-  if (parsed.type === 'youtube' || parsed.type === 'iframe') {
+  if (parsed.type === 'youtube' || parsed.type === 'gdrive' || parsed.type === 'iframe') {
     modalIframe.src = buildEmbedSrc(parsed, true);
     modalIframe.style.display = 'block';
     clickShield.style.display = 'block';
