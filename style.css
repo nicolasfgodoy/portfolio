@@ -529,17 +529,21 @@ a {
 .modal__instagram {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  overflow: hidden;
   background: #000;
 }
 
+/* Escala e recorta o widget do Instagram para exibir APENAS o vídeo */
 .modal__ig-frame {
-  width: 100%;
-  max-width: 400px;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 135%;
+  height: 135%;
+  transform: translate(-50%, -46%) scale(1.15);
   border: none;
+  pointer-events: none;
 }
 
 /* Shield transparente — bloqueia cliques acidentais no iframe */
@@ -551,7 +555,7 @@ a {
 }
 
 /* ============================================================
-   FILM BURN — transição ao abrir modal
+   FILM BURN — transição em modo SCREEN
    ============================================================ */
 .film-burn {
   position: absolute;
@@ -559,41 +563,44 @@ a {
   z-index: 20;
   pointer-events: none;
   opacity: 0;
+  mix-blend-mode: screen;
 }
 
 .film-burn--active {
-  animation: film-burn-in 0.9s ease-out forwards;
+  animation: film-burn-in 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes film-burn-in {
   0% {
     opacity: 1;
     background:
-      radial-gradient(ellipse at 30% 40%, oklch(80% 0.22 54 / 0.95) 0%, transparent 55%),
-      radial-gradient(ellipse at 70% 60%, oklch(65% 0.28 30 / 0.9) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, #fff8e7 0%, transparent 40%),
-      #1a0800;
-    filter: brightness(2.5) saturate(1.8) contrast(1.2);
+      radial-gradient(ellipse at 30% 40%, #ff5500 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 60%, #ff0055 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 50%, #ffffaa 0%, transparent 40%),
+      #ff2200;
+    filter: brightness(2.8) saturate(2.2);
   }
-  15% {
+  20% {
     opacity: 1;
     background:
-      radial-gradient(ellipse at 60% 30%, oklch(75% 0.25 45 / 0.85) 0%, transparent 60%),
-      radial-gradient(ellipse at 20% 70%, oklch(50% 0.2 20 / 0.7) 0%, transparent 45%),
-      #0d0500;
-    filter: brightness(1.8) saturate(2) contrast(1.4);
+      radial-gradient(ellipse at 60% 30%, #ff7700 0%, transparent 65%),
+      radial-gradient(ellipse at 20% 70%, #ff0022 0%, transparent 50%),
+      #cc1100;
+    filter: brightness(2.2) saturate(2);
   }
-  35% {
-    opacity: 0.7;
+  50% {
+    opacity: 0.85;
     background:
-      radial-gradient(ellipse at 50% 50%, oklch(70% 0.18 50 / 0.5) 0%, transparent 70%),
-      #050200;
-    filter: brightness(1.2) saturate(1.5);
+      radial-gradient(ellipse at 50% 50%, #ff3300 0%, transparent 70%),
+      #550500;
+    filter: brightness(1.6) saturate(1.6);
   }
-  60% {
-    opacity: 0.3;
-    background: #000;
-    filter: brightness(1);
+  75% {
+    opacity: 0.4;
+    background:
+      radial-gradient(ellipse at 50% 50%, #aa1100 0%, transparent 80%),
+      #110000;
+    filter: brightness(1.2);
   }
   100% {
     opacity: 0;
@@ -686,84 +693,45 @@ a {
 }
 
 /* ============================================================
-   MODAL NAV — setas prev/next
-   ============================================================ */
-.modal__nav {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.14);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255,255,255,0.7);
-  transition: background var(--transition), opacity var(--transition);
-  opacity: 0.5;
-}
-
-.modal__nav:hover { opacity: 1; background: rgba(0,0,0,0.6); }
-
-.modal__nav--prev { top: 14px; }
-.modal__nav--next { bottom: 14px; }
-
-/* Oculta quando não há vídeo na direção */
-.modal__nav--hidden { opacity: 0; pointer-events: none; }
-
-/* ============================================================
-   FILM BURN — versão swipe (mais longa, mais intensa)
+   FILM BURN — versão swipe (modo SCREEN, 2.8s)
    ============================================================ */
 .film-burn--swipe {
   z-index: 21;
 }
 
 .film-burn--swipe.film-burn--active {
-  animation: film-burn-swipe 1.5s ease-out forwards;
+  animation: film-burn-swipe 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes film-burn-swipe {
   0% {
     opacity: 1;
     background:
-      radial-gradient(ellipse at 20% 50%, oklch(82% 0.24 54 / 0.98) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 50%, oklch(68% 0.3 25 / 0.95) 0%, transparent 48%),
-      radial-gradient(ellipse at 50% 20%, #fff5d0 0%, transparent 35%),
-      radial-gradient(ellipse at 50% 80%, oklch(55% 0.22 15 / 0.8) 0%, transparent 40%),
-      #1a0600;
-    filter: brightness(3) saturate(2) contrast(1.3);
+      radial-gradient(ellipse at 20% 50%, #ff6600 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 50%, #ff0044 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 20%, #ffffcc 0%, transparent 40%),
+      #220400;
+    filter: brightness(3) saturate(2.2);
   }
-  10% {
+  20% {
     opacity: 1;
     background:
-      radial-gradient(ellipse at 70% 40%, oklch(78% 0.26 48 / 0.9) 0%, transparent 55%),
-      radial-gradient(ellipse at 30% 60%, oklch(60% 0.24 20 / 0.85) 0%, transparent 50%),
-      #120400;
-    filter: brightness(2.5) saturate(2.2) contrast(1.5);
+      radial-gradient(ellipse at 70% 40%, #ff4400 0%, transparent 60%),
+      radial-gradient(ellipse at 30% 60%, #cc0022 0%, transparent 50%),
+      #180200;
+    filter: brightness(2.4) saturate(2);
   }
-  25% {
-    opacity: 1;
-    background:
-      radial-gradient(ellipse at 50% 50%, oklch(72% 0.2 50 / 0.7) 0%, transparent 65%),
-      #0a0200;
-    filter: brightness(2) saturate(1.8) contrast(1.3);
-  }
-  45% {
+  50% {
     opacity: 0.85;
     background:
-      radial-gradient(ellipse at 50% 50%, oklch(65% 0.15 45 / 0.4) 0%, transparent 70%),
-      #050100;
-    filter: brightness(1.4) saturate(1.3);
+      radial-gradient(ellipse at 50% 50%, #ff2200 0%, transparent 70%),
+      #0d0100;
+    filter: brightness(1.7) saturate(1.5);
   }
-  70% {
+  75% {
     opacity: 0.4;
-    background: #020100;
-    filter: brightness(1.1);
+    background: #050000;
+    filter: brightness(1.2);
   }
   100% {
     opacity: 0;

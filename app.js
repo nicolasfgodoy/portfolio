@@ -195,10 +195,10 @@ function buildEmbedSrc(parsed, autoplay = false) {
     return `https://www.youtube.com/embed/${parsed.id}?${params}`;
   }
   if (parsed.type === 'instagram') {
-    return `https://www.instagram.com/p/${parsed.id}/embed/`;
+    return `https://www.instagram.com/reel/${parsed.id}/embed/captioned=0/`;
   }
   if (parsed.type === 'gdrive') {
-    return `https://drive.google.com/file/d/${parsed.id}/preview`;
+    return `https://drive.google.com/file/d/${parsed.id}/preview?autoplay=1`;
   }
   return parsed.src || '';
 }
@@ -336,8 +336,6 @@ const modalIg       = document.getElementById('modal-instagram');
 const modalWrap     = document.getElementById('modal-video-wrap');
 const clickShield   = document.getElementById('modal-click-shield');
 const modalReel     = document.querySelector('.modal__reel');
-const navPrev       = document.getElementById('modal-prev');
-const navNext       = document.getElementById('modal-next');
 
 let previouslyFocused = null;
 let currentPlaylist   = [];
@@ -374,11 +372,11 @@ function loadVideo(video) {
         scrolling="no"
         allowtransparency="true"
         allow="encrypted-media"
-        title="Instagram post"
+        title="Instagram Reel"
       ></iframe>
     `;
     modalIg.style.display = 'flex';
-    clickShield.style.display = 'none';
+    clickShield.style.display = 'block';
   } else if (parsed.type === 'native') {
     modalVideo.src = parsed.src;
     modalVideo.loop = true;
@@ -386,13 +384,6 @@ function loadVideo(video) {
     clickShield.style.display = 'none';
     modalVideo.play().catch(() => {});
   }
-
-  updateNavButtons();
-}
-
-function updateNavButtons() {
-  navPrev.classList.toggle('modal__nav--hidden', currentIndex <= 0);
-  navNext.classList.toggle('modal__nav--hidden', currentIndex >= currentPlaylist.length - 1);
 }
 
 function openModal(video, playlist) {
