@@ -141,6 +141,7 @@ function buildEmbedSrc(parsed, autoplay = false) {
       playsinline: '1',
       loop: '1',
       playlist: parsed.id,
+      vq: 'hd1080',
     });
     if (autoplay) params.set('autoplay', '1');
     return `https://www.youtube.com/embed/${parsed.id}?${params}`;

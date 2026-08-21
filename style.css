@@ -482,6 +482,7 @@ a {
   transform: scale(0.96);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .modal[aria-hidden="false"] .modal__reel {
@@ -494,15 +495,26 @@ a {
   inset: 0;
 }
 
-/* iframe escala para cobrir 9:16 escondendo barras do YouTube */
-/* YouTube em 9:16: o player nativo é 16:9, então escalamos ~178% na vertical */
+/*
+  iframe do YouTube: o player é 16:9, mas o container é 9:16.
+  Para cobrir sem barras pretas:
+  - largura do container = W, altura = H (onde H/W = 16/9)
+  - o iframe 16:9 com width=W teria height = W*(9/16)
+  - precisamos height = H, então scale = H / (W*9/16) = (H/W)*(16/9) = (16/9)*(16/9) ≈ 3.16
+  - usamos overflow hidden no pai e posicionamos centralizado
+*/
 .modal__iframe {
   position: absolute;
-  /* sobra 10% em cada lado para cortar letterbox */
-  top: -10%;
-  left: -10%;
-  width: 120%;
-  height: 120%;
+  /* Centraliza e escala para cobrir o container 9:16 com conteúdo 16:9 */
+  top: 50%;
+  left: 50%;
+  /* largura = 100% da largura do container */
+  /* altura proporcional 16:9 baseada na LARGURA */
+  width: 100%;
+  height: calc(100vw * 16 / 9);
+  /* fallback: se não funcionar, usa viewport */
+  min-height: 100%;
+  transform: translate(-50%, -50%);
   border: none;
   pointer-events: auto;
 }
@@ -626,41 +638,50 @@ a {
   text-shadow: 0 2px 12px rgba(0,0,0,0.6);
 }
 
-/* Botão fechar — canto superior direito */
+/* Botão fechar — fixed, flutua sobre tudo, fora do reel */
 .modal__close {
-  position: absolute;
+  position: fixed;
   top: 16px;
   right: 16px;
-  z-index: 10;
+  z-index: 1100;
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.45);
-  border: 1px solid rgba(255,255,255,0.18);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255,255,255,0.9);
   transition: background var(--transition), color var(--transition);
+  pointer-events: auto;
 }
 
 .modal__close:hover {
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.8);
   color: var(--white);
 }
 
-/* Mobile: reel ocupa a tela inteira */
+/* Mobile: reel ocupa a tela inteira sem folga */
 @media (max-width: 600px) {
   .modal {
     padding: 0;
+    overflow: hidden;
   }
 
   .modal__reel {
     width: 100dvw;
     height: 100dvh;
     border-radius: 0;
+  }
+
+  /* No mobile o container tem width = 100dvw, então o iframe precisa de:
+     height = 100dvw * (16/9) para cobrir a altura do reel (100dvh) */
+  .modal__iframe {
+    width: 100dvw;
+    height: calc(100dvw * 16 / 9);
   }
 }
 
