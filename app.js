@@ -162,6 +162,13 @@ function triggerFilmBurn() {
   burn.classList.add('film-burn--active');
 }
 
+function triggerFilmBurnSwipe() {
+  const burn = document.getElementById('film-burn-swipe');
+  burn.classList.remove('film-burn--active');
+  void burn.offsetWidth;
+  burn.classList.add('film-burn--active');
+}
+
 /* ============================================================
    THUMBNAIL — gera fallback se não houver
    ============================================================ */
@@ -179,7 +186,7 @@ function getThumbnail(video) {
    RENDER — CARD
    ============================================================ */
 
-function buildCard(video) {
+function buildCard(video, playlist) {
   const li = document.createElement('li');
   li.className = 'card';
   li.dataset.category = video.category;
@@ -214,11 +221,11 @@ function buildCard(video) {
     }
   `;
 
-  li.addEventListener('click', () => openModal(video));
+  li.addEventListener('click', () => openModal(video, playlist));
   li.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      openModal(video);
+      openModal(video, playlist);
     }
   });
 
@@ -238,7 +245,7 @@ function renderGrid(videos) {
   }
 
   const fragment = document.createDocumentFragment();
-  videos.forEach((v) => fragment.appendChild(buildCard(v)));
+  videos.forEach((v) => fragment.appendChild(buildCard(v, videos)));
   grid.appendChild(fragment);
 }
 
@@ -276,23 +283,25 @@ const modalVideo    = document.getElementById('modal-video');
 const modalIg       = document.getElementById('modal-instagram');
 const modalWrap     = document.getElementById('modal-video-wrap');
 const clickShield   = document.getElementById('modal-click-shield');
+const modalReel     = document.querySelector('.modal__reel');
+const navPrev       = document.getElementById('modal-prev');
+const navNext       = document.getElementById('modal-next');
 
 let previouslyFocused = null;
+let currentPlaylist   = [];
+let currentIndex      = 0;
 
 function resetModalPlayer() {
-  modalIframe.style.display  = 'none';
-  modalVideo.style.display   = 'none';
-  modalIg.style.display      = 'none';
-
+  modalIframe.style.display = 'none';
+  modalVideo.style.display  = 'none';
+  modalIg.style.display     = 'none';
   modalIframe.src  = '';
   modalVideo.src   = '';
   modalVideo.pause && modalVideo.pause();
   modalIg.innerHTML = '';
 }
 
-function openModal(video) {
-  previouslyFocused = document.activeElement;
-
+function loadVideo(video) {
   document.getElementById('modal-category').textContent = video.category;
   document.getElementById('modal-title').textContent    = video.title;
 
@@ -326,6 +335,22 @@ function openModal(video) {
     modalVideo.play().catch(() => {});
   }
 
+  updateNavButtons();
+}
+
+function updateNavButtons() {
+  navPrev.classList.toggle('modal__nav--hidden', currentIndex <= 0);
+  navNext.classList.toggle('modal__nav--hidden', currentIndex >= currentPlaylist.length - 1);
+}
+
+function openModal(video, playlist) {
+  previouslyFocused = document.activeElement;
+  currentPlaylist   = playlist || [video];
+  currentIndex      = currentPlaylist.findIndex(v => v.id === video.id);
+  if (currentIndex < 0) currentIndex = 0;
+
+  loadVideo(currentPlaylist[currentIndex]);
+
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   triggerFilmBurn();
@@ -335,33 +360,83 @@ function openModal(video) {
 function closeModal() {
   modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
-
-  setTimeout(() => {
-    resetModalPlayer();
-  }, 300);
-
+  setTimeout(resetModalPlayer, 300);
   if (previouslyFocused) previouslyFocused.focus();
 }
 
-closeBtn.addEventListener('click', closeModal);
-backdrop.addEventListener('click', closeModal);
+/* --- Navegação entre vídeos com animação ------------------- */
+
+function navigateTo(direction) {
+  const nextIndex = currentIndex + direction;
+  if (nextIndex < 0 || nextIndex >= currentPlaylist.length) return;
+
+  const exitClass  = direction > 0 ? 'modal__reel--exit-up'   : 'modal__reel--exit-down';
+  const enterClass = direction > 0 ? 'modal__reel--enter-up'  : 'modal__reel--enter-down';
+
+  triggerFilmBurnSwipe();
+
+  modalReel.classList.add(exitClass);
+
+  setTimeout(() => {
+    modalReel.classList.remove(exitClass);
+    currentIndex = nextIndex;
+    loadVideo(currentPlaylist[currentIndex]);
+    modalReel.classList.add(enterClass);
+    modalReel.addEventListener('animationend', () => {
+      modalReel.classList.remove(enterClass);
+    }, { once: true });
+  }, 350);
+}
+
+navPrev.addEventListener('click', () => navigateTo(-1));
+navNext.addEventListener('click', () => navigateTo(1));
+
+/* --- Touch / swipe ----------------------------------------- */
+
+let touchStartY = 0;
+let touchStartX = 0;
+let isSwiping   = false;
+
+modalReel.addEventListener('touchstart', (e) => {
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+  isSwiping = false;
+}, { passive: true });
+
+modalReel.addEventListener('touchmove', (e) => {
+  const dy = Math.abs(e.touches[0].clientY - touchStartY);
+  const dx = Math.abs(e.touches[0].clientX - touchStartX);
+  if (dy > dx && dy > 10) isSwiping = true;
+}, { passive: true });
+
+modalReel.addEventListener('touchend', (e) => {
+  if (!isSwiping) return;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dy) < 60) return;
+  navigateTo(dy < 0 ? 1 : -1);
+});
+
+/* --- Teclado ----------------------------------------------- */
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
-    closeModal();
-  }
+  const isOpen = modal.getAttribute('aria-hidden') === 'false';
+  if (e.key === 'Escape' && isOpen) { closeModal(); return; }
+  if (!isOpen) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); navigateTo(1);  }
+  if (e.key === 'ArrowUp')   { e.preventDefault(); navigateTo(-1); }
 });
+
+closeBtn.addEventListener('click', closeModal);
+backdrop.addEventListener('click', closeModal);
 
 modal.addEventListener('keydown', (e) => {
   if (e.key !== 'Tab') return;
   const focusable = Array.from(
     modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
   ).filter((el) => !el.disabled && el.offsetParent !== null);
-
   if (focusable.length === 0) return;
   const first = focusable[0];
   const last  = focusable[focusable.length - 1];
-
   if (e.shiftKey) {
     if (document.activeElement === first) { e.preventDefault(); last.focus(); }
   } else {

@@ -199,6 +199,9 @@ a {
   font-size: 13px;
   color: var(--muted-light);
   line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 .profile__cta {
@@ -662,6 +665,121 @@ a {
 }
 
 /* ============================================================
+   MODAL NAV — setas prev/next
+   ============================================================ */
+.modal__nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.7);
+  transition: background var(--transition), opacity var(--transition);
+  opacity: 0.5;
+}
+
+.modal__nav:hover { opacity: 1; background: rgba(0,0,0,0.6); }
+
+.modal__nav--prev { top: 14px; }
+.modal__nav--next { bottom: 14px; }
+
+/* Oculta quando não há vídeo na direção */
+.modal__nav--hidden { opacity: 0; pointer-events: none; }
+
+/* ============================================================
+   FILM BURN — versão swipe (mais longa, mais intensa)
+   ============================================================ */
+.film-burn--swipe {
+  z-index: 21;
+}
+
+.film-burn--swipe.film-burn--active {
+  animation: film-burn-swipe 1.5s ease-out forwards;
+}
+
+@keyframes film-burn-swipe {
+  0% {
+    opacity: 1;
+    background:
+      radial-gradient(ellipse at 20% 50%, oklch(82% 0.24 54 / 0.98) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 50%, oklch(68% 0.3 25 / 0.95) 0%, transparent 48%),
+      radial-gradient(ellipse at 50% 20%, #fff5d0 0%, transparent 35%),
+      radial-gradient(ellipse at 50% 80%, oklch(55% 0.22 15 / 0.8) 0%, transparent 40%),
+      #1a0600;
+    filter: brightness(3) saturate(2) contrast(1.3);
+  }
+  10% {
+    opacity: 1;
+    background:
+      radial-gradient(ellipse at 70% 40%, oklch(78% 0.26 48 / 0.9) 0%, transparent 55%),
+      radial-gradient(ellipse at 30% 60%, oklch(60% 0.24 20 / 0.85) 0%, transparent 50%),
+      #120400;
+    filter: brightness(2.5) saturate(2.2) contrast(1.5);
+  }
+  25% {
+    opacity: 1;
+    background:
+      radial-gradient(ellipse at 50% 50%, oklch(72% 0.2 50 / 0.7) 0%, transparent 65%),
+      #0a0200;
+    filter: brightness(2) saturate(1.8) contrast(1.3);
+  }
+  45% {
+    opacity: 0.85;
+    background:
+      radial-gradient(ellipse at 50% 50%, oklch(65% 0.15 45 / 0.4) 0%, transparent 70%),
+      #050100;
+    filter: brightness(1.4) saturate(1.3);
+  }
+  70% {
+    opacity: 0.4;
+    background: #020100;
+    filter: brightness(1.1);
+  }
+  100% {
+    opacity: 0;
+    background: transparent;
+    filter: none;
+  }
+}
+
+/* ============================================================
+   REEL SWIPE — animações de transição entre vídeos
+   ============================================================ */
+.modal__reel {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.modal__reel--exit-up {
+  animation: reel-exit-up 0.35s ease-in forwards;
+}
+
+.modal__reel--exit-down {
+  animation: reel-exit-down 0.35s ease-in forwards;
+}
+
+.modal__reel--enter-up {
+  animation: reel-enter-up 0.35s ease-out forwards;
+}
+
+.modal__reel--enter-down {
+  animation: reel-enter-down 0.35s ease-out forwards;
+}
+
+@keyframes reel-exit-up   { to { transform: translateY(-8%) scale(0.96); opacity: 0; } }
+@keyframes reel-exit-down { to { transform: translateY( 8%) scale(0.96); opacity: 0; } }
+@keyframes reel-enter-up  { from { transform: translateY( 8%) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes reel-enter-down{ from { transform: translateY(-8%) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+/* ============================================================
    RESPONSIVE — HEADER & GRID
    ============================================================ */
 @media (max-width: 768px) {
@@ -697,7 +815,9 @@ a {
   }
 
   .profile__bio {
-    display: none;
+    display: flex;
+    font-size: 11px;
+    gap: 1px;
   }
 
   .profile__cta {

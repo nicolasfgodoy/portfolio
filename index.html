@@ -44,10 +44,13 @@
           </li>
         </ul>
 
-        <p class="profile__bio">
-          Videomaker cinematográfico · Casamentos, eventos, shows, baladas · São Paulo, BR<br>
-          Blackmagic 4K · Sim, eu edito no Premiere, me julgue.
-        </p>
+        <div class="profile__bio">
+          <span>Videomaker cinematográfico</span>
+          <span>Casamentos, eventos, shows, baladas</span>
+          <span>São Paulo, BR</span>
+          <span>Blackmagic 4K</span>
+          <span>Sim, eu edito no Premiere, me julgue.</span>
+        </div>
 
         <a class="profile__cta" href="https://wa.me/5511932268093?text=Ol%C3%A1%20Nicolas%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20cobertura%20em%20v%C3%ADdeo!" target="_blank" rel="noopener noreferrer">Solicitar orçamento</a>
       </div>
@@ -97,7 +100,19 @@
 
         <div class="modal__click-shield" id="modal-click-shield" aria-hidden="true"></div>
         <div class="film-burn" id="film-burn" aria-hidden="true"></div>
+        <div class="film-burn film-burn--swipe" id="film-burn-swipe" aria-hidden="true"></div>
       </div>
+
+      <button class="modal__nav modal__nav--prev" id="modal-prev" aria-label="Vídeo anterior">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 4L4 10L10 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="modal__nav modal__nav--next" id="modal-next" aria-label="Próximo vídeo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M10 16L16 10L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
 
       <div class="modal__overlay-info" aria-live="polite">
         <span class="modal__category" id="modal-category"></span>
