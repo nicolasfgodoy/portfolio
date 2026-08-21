@@ -11,8 +11,8 @@
   --muted:       #666;
   --muted-light: #999;
 
-  --accent:      oklch(72% 0.18 54);   /* âmbar quente */
-  --accent-dim:  oklch(60% 0.14 54);
+  --accent:      #ff0000;   /* vermelho puro */
+  --accent-dim:  #cc0000;
 
   --font-display: 'Bebas Neue', sans-serif;
   --font-body:    'Inter', sans-serif;

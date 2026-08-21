@@ -12,6 +12,61 @@
 const FALLBACK_VIDEOS = [
   {
     "id": 1,
+    "title": "Vídeo YouTube 1",
+    "category": "Casamentos",
+    "date": "",
+    "location": "",
+    "description": "",
+    "thumbnail": "https://img.youtube.com/vi/I7pqmzxUXXc/hqdefault.jpg",
+    "videoUrl": "https://www.youtube.com/watch?v=I7pqmzxUXXc",
+    "duration": ""
+  },
+  {
+    "id": 2,
+    "title": "Vídeo YouTube 2",
+    "category": "Shows",
+    "date": "",
+    "location": "",
+    "description": "",
+    "thumbnail": "https://img.youtube.com/vi/5Qag5em1IdM/hqdefault.jpg",
+    "videoUrl": "https://www.youtube.com/watch?v=5Qag5em1IdM",
+    "duration": ""
+  },
+  {
+    "id": 3,
+    "title": "Vídeo YouTube 3",
+    "category": "Baladas",
+    "date": "",
+    "location": "",
+    "description": "",
+    "thumbnail": "https://img.youtube.com/vi/8qQ0Jj8LVFo/hqdefault.jpg",
+    "videoUrl": "https://www.youtube.com/watch?v=8qQ0Jj8LVFo",
+    "duration": ""
+  },
+  {
+    "id": 4,
+    "title": "Vídeo YouTube 4",
+    "category": "Teasers",
+    "date": "",
+    "location": "",
+    "description": "",
+    "thumbnail": "https://img.youtube.com/vi/z20rooamh28/hqdefault.jpg",
+    "videoUrl": "https://www.youtube.com/watch?v=z20rooamh28",
+    "duration": ""
+  },
+  {
+    "id": 5,
+    "title": "Vídeo YouTube 5",
+    "category": "Corporativo",
+    "date": "",
+    "location": "",
+    "description": "",
+    "thumbnail": "https://img.youtube.com/vi/piRPUYjzUHE/hqdefault.jpg",
+    "videoUrl": "https://www.youtube.com/watch?v=piRPUYjzUHE",
+    "duration": ""
+  },
+  {
+    "id": 6,
     "title": "Reel Instagram",
     "category": "Shows",
     "date": "",
@@ -22,7 +77,7 @@ const FALLBACK_VIDEOS = [
     "duration": ""
   },
   {
-    "id": 2,
+    "id": 7,
     "title": "Vídeo Drive 1",
     "category": "Casamentos",
     "date": "",
@@ -33,7 +88,7 @@ const FALLBACK_VIDEOS = [
     "duration": ""
   },
   {
-    "id": 3,
+    "id": 8,
     "title": "Vídeo Drive 2",
     "category": "Baladas",
     "date": "",
@@ -44,7 +99,7 @@ const FALLBACK_VIDEOS = [
     "duration": ""
   },
   {
-    "id": 4,
+    "id": 9,
     "title": "Vídeo Drive 3",
     "category": "Teasers",
     "date": "",
@@ -462,6 +517,8 @@ async function init() {
 
   try {
     const videos = await fetchVideos();
+    const statEl = document.getElementById('stat-projects');
+    if (statEl) statEl.textContent = videos.length;
     renderGrid(videos);
     initFilters(videos);
   } catch (err) {
