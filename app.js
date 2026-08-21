@@ -1,15 +1,15 @@
 /**
  * app.js — Portfolio Videomaker — Nicolas Godoy
- * Modular ES module: fetch com fallback CORS, parser de URLs,
- * renderização de grid, filtros e modal com suporte a YouTube,
- * Instagram Reels e vídeos nativos (.mp4/.webm).
+ * Renderização síncrona imediata com dados embutidos VIDEOS_DATA,
+ * parser de URLs (YouTube, Instagram, Google Drive, MP4),
+ * miniaturas dinâmicas, filtros e modal com transição film-burn.
  */
 
 /* ============================================================
-   FALLBACK DATA — usado quando fetch falha (file://)
+   EMBEDDED DATA — Renderização síncrona sem depender de fetch
    ============================================================ */
 
-const FALLBACK_VIDEOS = [
+const VIDEOS_DATA = [
   {
     "id": 1,
     "title": "Vídeo YouTube 1",
@@ -111,20 +111,7 @@ const FALLBACK_VIDEOS = [
   }
 ];
 
-/* ============================================================
-   DATA — fetch com fallback para file://
-   ============================================================ */
-
-async function fetchVideos() {
-  try {
-    const res = await fetch('./videos.json?t=' + Date.now());
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) return data;
-    }
-  } catch (_) { /* fallback se fetch falhar */ }
-  return FALLBACK_VIDEOS;
-}
+let activeVideosList = [...VIDEOS_DATA];
 
 /* ============================================================
    URL PARSER — detecta tipo e retorna embed info
@@ -132,8 +119,7 @@ async function fetchVideos() {
 
 function parseVideoUrl(url) {
   if (!url) return { type: 'unknown', src: '' };
-
-  const u = url.trim();
+  const u = String(url).trim();
 
   /* YouTube watch  */
   const ytWatch = u.match(/(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -194,11 +180,25 @@ function buildEmbedSrc(parsed, autoplay = false) {
 }
 
 /* ============================================================
+   THUMBNAIL — gera dinamicamente para YT ou usa fallback
+   ============================================================ */
+
+function getThumbnail(video) {
+  const parsed = parseVideoUrl(video.videoUrl);
+  if (parsed.type === 'youtube' && parsed.id) {
+    return `https://i.ytimg.com/vi/${parsed.id}/hqdefault.jpg`;
+  }
+  if (video.thumbnail) return video.thumbnail;
+  return 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&q=80';
+}
+
+/* ============================================================
    FILM BURN — animação de transição ao abrir modal
    ============================================================ */
 
 function triggerFilmBurn() {
   const burn = document.getElementById('film-burn');
+  if (!burn) return;
   burn.classList.remove('film-burn--active');
   void burn.offsetWidth;
   burn.classList.add('film-burn--active');
@@ -206,79 +206,73 @@ function triggerFilmBurn() {
 
 function triggerFilmBurnSwipe() {
   const burn = document.getElementById('film-burn-swipe');
+  if (!burn) return;
   burn.classList.remove('film-burn--active');
   void burn.offsetWidth;
   burn.classList.add('film-burn--active');
 }
 
 /* ============================================================
-   THUMBNAIL — gera fallback se não houver
-   ============================================================ */
-
-function getThumbnail(video) {
-  if (video.thumbnail) return video.thumbnail;
-  const parsed = parseVideoUrl(video.videoUrl);
-  if (parsed.type === 'youtube') {
-    return `https://img.youtube.com/vi/${parsed.id}/hqdefault.jpg`;
-  }
-  return '';
-}
-
-/* ============================================================
-   RENDER — CARD
+   RENDER — CARD (com tratamento de erros individual)
    ============================================================ */
 
 function buildCard(video, playlist) {
-  const li = document.createElement('li');
-  li.className = 'card';
-  li.dataset.category = video.category;
-  li.setAttribute('role', 'listitem');
-  li.setAttribute('tabindex', '0');
-  li.setAttribute('aria-label', `${video.title} — ${video.category}, ${video.duration}`);
+  try {
+    const li = document.createElement('li');
+    li.className = 'card';
+    li.dataset.category = video.category || 'Geral';
+    li.setAttribute('role', 'listitem');
+    li.setAttribute('tabindex', '0');
+    li.setAttribute('aria-label', `${video.title || 'Vídeo'} — ${video.category || ''}`);
 
-  const thumb = getThumbnail(video);
-  const parsed = parseVideoUrl(video.videoUrl);
-  const typeLabel = parsed.type === 'instagram' ? 'IG' : parsed.type === 'native' ? '▶' : '▶';
+    const thumb = getThumbnail(video);
+    const parsed = parseVideoUrl(video.videoUrl);
 
-  li.innerHTML = `
-    ${thumb
-      ? `<img class="card__thumb" src="${escHtml(thumb)}" alt="${escHtml(video.title)}" loading="lazy" decoding="async" />`
-      : `<div class="card__thumb card__thumb--placeholder"></div>`
-    }
-    <div class="card__overlay" aria-hidden="true">
-      <div class="card__play">
-        <div class="card__play-icon">
-          <svg width="16" height="18" viewBox="0 0 16 18" fill="none" aria-hidden="true">
-            <path d="M1 1.5L15 9L1 16.5V1.5Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-          </svg>
+    li.innerHTML = `
+      ${thumb
+        ? `<img class="card__thumb" src="${escHtml(thumb)}" alt="${escHtml(video.title || 'Vídeo')}" loading="lazy" decoding="async" onerror="this.src='https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&q=80'" />`
+        : `<div class="card__thumb card__thumb--placeholder"></div>`
+      }
+      <div class="card__overlay" aria-hidden="true">
+        <div class="card__play">
+          <div class="card__play-icon">
+            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" aria-hidden="true">
+              <path d="M1 1.5L15 9L1 16.5V1.5Z" fill="white" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
         </div>
+        <span class="card__category">${escHtml(video.category || '')}</span>
+        <h2 class="card__title">${escHtml(video.title || 'Sem título')}</h2>
       </div>
-      <span class="card__category">${escHtml(video.category)}</span>
-      <h2 class="card__title">${escHtml(video.title)}</h2>
-    </div>
-    <span class="card__duration" aria-hidden="true">${escHtml(video.duration)}</span>
-    ${parsed.type === 'instagram'
-      ? '<span class="card__badge card__badge--ig" aria-hidden="true">IG</span>'
-      : ''
-    }
-  `;
+      ${video.duration ? `<span class="card__duration" aria-hidden="true">${escHtml(video.duration)}</span>` : ''}
+      ${parsed.type === 'instagram'
+        ? '<span class="card__badge card__badge--ig" aria-hidden="true">IG</span>'
+        : ''
+      }
+    `;
 
-  li.addEventListener('click', () => openModal(video, playlist));
-  li.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openModal(video, playlist);
-    }
-  });
+    li.addEventListener('click', () => openModal(video, playlist));
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(video, playlist);
+      }
+    });
 
-  return li;
+    return li;
+  } catch (err) {
+    console.error('[Portfolio] Erro ao renderizar card:', err, video);
+    return null;
+  }
 }
 
 function renderGrid(videos) {
   const grid = document.getElementById('video-grid');
+  if (!grid) return;
+
   grid.innerHTML = '';
 
-  if (videos.length === 0) {
+  if (!Array.isArray(videos) || videos.length === 0) {
     const p = document.createElement('p');
     p.className = 'grid__loading';
     p.textContent = 'Nenhum vídeo nesta categoria.';
@@ -287,8 +281,31 @@ function renderGrid(videos) {
   }
 
   const fragment = document.createDocumentFragment();
-  videos.forEach((v) => fragment.appendChild(buildCard(v, videos)));
-  grid.appendChild(fragment);
+  let renderedCount = 0;
+
+  videos.forEach((v) => {
+    try {
+      const card = buildCard(v, videos);
+      if (card) {
+        fragment.appendChild(card);
+        renderedCount++;
+      }
+    } catch (e) {
+      console.error('[Portfolio] Falha ao processar vídeo no grid:', e);
+    }
+  });
+
+  if (renderedCount === 0) {
+    const p = document.createElement('p');
+    p.className = 'grid__loading';
+    p.textContent = 'Nenhum vídeo disponível no momento.';
+    grid.appendChild(p);
+  } else {
+    grid.appendChild(fragment);
+  }
+
+  const statEl = document.getElementById('stat-projects');
+  if (statEl) statEl.textContent = activeVideosList.length;
 }
 
 /* ============================================================
@@ -314,69 +331,75 @@ function initFilters(allVideos) {
 }
 
 /* ============================================================
-   MODAL
+   MODAL CONTROL
    ============================================================ */
-
-const modal         = document.getElementById('modal');
-const backdrop      = document.getElementById('modal-backdrop');
-const closeBtn      = document.getElementById('modal-close');
-const modalIframe   = document.getElementById('modal-iframe');
-const modalVideo    = document.getElementById('modal-video');
-const modalIg       = document.getElementById('modal-instagram');
-const modalWrap     = document.getElementById('modal-video-wrap');
-const clickShield   = document.getElementById('modal-click-shield');
-const modalReel     = document.querySelector('.modal__reel');
 
 let previouslyFocused = null;
 let currentPlaylist   = [];
 let currentIndex      = 0;
 
 function resetModalPlayer() {
-  modalIframe.style.display = 'none';
-  modalVideo.style.display  = 'none';
-  modalIg.style.display     = 'none';
-  modalIframe.src  = '';
-  modalVideo.src   = '';
-  modalVideo.pause && modalVideo.pause();
-  modalIg.innerHTML = '';
+  const modalIframe   = document.getElementById('modal-iframe');
+  const modalVideo    = document.getElementById('modal-video');
+  const modalIg       = document.getElementById('modal-instagram');
+
+  if (modalIframe) { modalIframe.style.display = 'none'; modalIframe.src = ''; }
+  if (modalVideo)  { modalVideo.style.display  = 'none'; modalVideo.src = ''; if (modalVideo.pause) modalVideo.pause(); }
+  if (modalIg)     { modalIg.style.display     = 'none'; modalIg.innerHTML = ''; }
 }
 
 function loadVideo(video) {
-  document.getElementById('modal-category').textContent = video.category;
-  document.getElementById('modal-title').textContent    = video.title;
+  const catEl = document.getElementById('modal-category');
+  const titleEl = document.getElementById('modal-title');
+  if (catEl) catEl.textContent = video.category || '';
+  if (titleEl) titleEl.textContent = video.title || '';
 
   resetModalPlayer();
 
   const parsed = parseVideoUrl(video.videoUrl);
+  const clickShield   = document.getElementById('modal-click-shield');
+  const modalIframe   = document.getElementById('modal-iframe');
+  const modalVideo    = document.getElementById('modal-video');
+  const modalIg       = document.getElementById('modal-instagram');
 
   if (parsed.type === 'youtube' || parsed.type === 'gdrive' || parsed.type === 'iframe') {
-    modalIframe.src = buildEmbedSrc(parsed, true);
-    modalIframe.style.display = 'block';
-    clickShield.style.display = 'block';
+    if (modalIframe) {
+      modalIframe.src = buildEmbedSrc(parsed, true);
+      modalIframe.style.display = 'block';
+    }
+    if (clickShield) clickShield.style.display = 'block';
   } else if (parsed.type === 'instagram') {
-    modalIg.innerHTML = `
-      <iframe
-        src="${escHtml(buildEmbedSrc(parsed))}"
-        class="modal__ig-frame"
-        frameborder="0"
-        scrolling="no"
-        allowtransparency="true"
-        allow="encrypted-media"
-        title="Instagram Reel"
-      ></iframe>
-    `;
-    modalIg.style.display = 'flex';
-    clickShield.style.display = 'block';
+    if (modalIg) {
+      modalIg.innerHTML = `
+        <iframe
+          src="${escHtml(buildEmbedSrc(parsed))}"
+          class="modal__ig-frame"
+          frameborder="0"
+          scrolling="no"
+          allowtransparency="true"
+          allow="encrypted-media"
+          title="Instagram Reel"
+        ></iframe>
+      `;
+      modalIg.style.display = 'flex';
+    }
+    if (clickShield) clickShield.style.display = 'block';
   } else if (parsed.type === 'native') {
-    modalVideo.src = parsed.src;
-    modalVideo.loop = true;
-    modalVideo.style.display = 'block';
-    clickShield.style.display = 'none';
-    modalVideo.play().catch(() => {});
+    if (modalVideo) {
+      modalVideo.src = parsed.src;
+      modalVideo.loop = true;
+      modalVideo.style.display = 'block';
+      modalVideo.play().catch(() => {});
+    }
+    if (clickShield) clickShield.style.display = 'none';
   }
 }
 
 function openModal(video, playlist) {
+  const modal = document.getElementById('modal');
+  const closeBtn = document.getElementById('modal-close');
+  if (!modal) return;
+
   previouslyFocused = document.activeElement;
   currentPlaylist   = playlist || [video];
   currentIndex      = currentPlaylist.findIndex(v => v.id === video.id);
@@ -387,19 +410,25 @@ function openModal(video, playlist) {
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   triggerFilmBurn();
-  requestAnimationFrame(() => closeBtn.focus());
+  if (closeBtn) requestAnimationFrame(() => closeBtn.focus());
 }
 
 function closeModal() {
+  const modal = document.getElementById('modal');
+  if (!modal) return;
+
   modal.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
   setTimeout(resetModalPlayer, 300);
   if (previouslyFocused) previouslyFocused.focus();
 }
 
-/* --- Navegação entre vídeos com animação ------------------- */
+/* --- Navegação entre vídeos com animação --- */
 
 function navigateTo(direction) {
+  const modalReel = document.querySelector('.modal__reel');
+  if (!modalReel) return;
+
   const nextIndex = currentIndex + direction;
   if (nextIndex < 0 || nextIndex >= currentPlaylist.length) return;
 
@@ -421,61 +450,68 @@ function navigateTo(direction) {
   }, 350);
 }
 
-navPrev.addEventListener('click', () => navigateTo(-1));
-navNext.addEventListener('click', () => navigateTo(1));
+/* --- Event listeners para o modal e gestos --- */
 
-/* --- Touch / swipe ----------------------------------------- */
+function setupEventListeners() {
+  const modal      = document.getElementById('modal');
+  const backdrop   = document.getElementById('modal-backdrop');
+  const closeBtn   = document.getElementById('modal-close');
+  const modalReel  = document.querySelector('.modal__reel');
 
-let touchStartY = 0;
-let touchStartX = 0;
-let isSwiping   = false;
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (backdrop) backdrop.addEventListener('click', closeModal);
 
-modalReel.addEventListener('touchstart', (e) => {
-  touchStartY = e.touches[0].clientY;
-  touchStartX = e.touches[0].clientX;
-  isSwiping = false;
-}, { passive: true });
+  if (modalReel) {
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let isSwiping   = false;
 
-modalReel.addEventListener('touchmove', (e) => {
-  const dy = Math.abs(e.touches[0].clientY - touchStartY);
-  const dx = Math.abs(e.touches[0].clientX - touchStartX);
-  if (dy > dx && dy > 10) isSwiping = true;
-}, { passive: true });
+    modalReel.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+      isSwiping = false;
+    }, { passive: true });
 
-modalReel.addEventListener('touchend', (e) => {
-  if (!isSwiping) return;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dy) < 60) return;
-  navigateTo(dy < 0 ? 1 : -1);
-});
+    modalReel.addEventListener('touchmove', (e) => {
+      const dy = Math.abs(e.touches[0].clientY - touchStartY);
+      const dx = Math.abs(e.touches[0].clientX - touchStartX);
+      if (dy > dx && dy > 10) isSwiping = true;
+    }, { passive: true });
 
-/* --- Teclado ----------------------------------------------- */
-
-document.addEventListener('keydown', (e) => {
-  const isOpen = modal.getAttribute('aria-hidden') === 'false';
-  if (e.key === 'Escape' && isOpen) { closeModal(); return; }
-  if (!isOpen) return;
-  if (e.key === 'ArrowDown') { e.preventDefault(); navigateTo(1);  }
-  if (e.key === 'ArrowUp')   { e.preventDefault(); navigateTo(-1); }
-});
-
-closeBtn.addEventListener('click', closeModal);
-backdrop.addEventListener('click', closeModal);
-
-modal.addEventListener('keydown', (e) => {
-  if (e.key !== 'Tab') return;
-  const focusable = Array.from(
-    modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-  ).filter((el) => !el.disabled && el.offsetParent !== null);
-  if (focusable.length === 0) return;
-  const first = focusable[0];
-  const last  = focusable[focusable.length - 1];
-  if (e.shiftKey) {
-    if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-  } else {
-    if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+    modalReel.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dy) < 60) return;
+      navigateTo(dy < 0 ? 1 : -1);
+    });
   }
-});
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal) return;
+    const isOpen = modal.getAttribute('aria-hidden') === 'false';
+    if (e.key === 'Escape' && isOpen) { closeModal(); return; }
+    if (!isOpen) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); navigateTo(1);  }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); navigateTo(-1); }
+  });
+
+  if (modal) {
+    modal.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(
+        modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      ).filter((el) => !el.disabled && el.offsetParent !== null);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
+}
 
 /* ============================================================
    UTILITIES
@@ -490,22 +526,35 @@ function escHtml(str) {
 }
 
 /* ============================================================
-   INIT
+   INIT — Renderização imediata e síncrona
    ============================================================ */
 
-async function init() {
-  const grid = document.getElementById('video-grid');
+function initApp() {
+  // 1. Renderiza imediatamente com VIDEOS_DATA
+  renderGrid(VIDEOS_DATA);
+  initFilters(VIDEOS_DATA);
+  setupEventListeners();
 
-  try {
-    const videos = await fetchVideos();
-    const statEl = document.getElementById('stat-projects');
-    if (statEl) statEl.textContent = videos.length;
-    renderGrid(videos);
-    initFilters(videos);
-  } catch (err) {
-    console.error('[Portfolio]', err);
-    grid.innerHTML = '<p class="grid__loading">Erro ao carregar os vídeos.</p>';
-  }
+  // 2. Tenta atualizar via videos.json em segundo plano (se disponível)
+  fetch('./videos.json?t=' + Date.now())
+    .then((res) => {
+      if (res.ok) return res.json();
+      throw new Error('Response not ok');
+    })
+    .then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        activeVideosList = data;
+        renderGrid(activeVideosList);
+        initFilters(activeVideosList);
+      }
+    })
+    .catch((_) => {
+      // Ignora erro silenciosamente, pois VIDEOS_DATA já foi exibido com sucesso
+    });
 }
 
-init();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
