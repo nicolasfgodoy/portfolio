@@ -364,15 +364,21 @@ function loadVideo(video) {
     }
     if (clickShield) clickShield.style.display = 'block';
   } else if (parsed.type === 'gdrive' || parsed.type === 'native') {
-    // Player HTML5 Nativo limpo para Google Drive e arquivos .mp4/.webm
+    // Player HTML5 Nativo limpo para Google Drive e arquivos .mp4/.webm (com áudio ativado)
     if (modalVideo) {
       const streamSrc = parsed.type === 'gdrive' ? getGDriveDirectUrl(parsed.id) : parsed.src;
       modalVideo.src = streamSrc;
+      modalVideo.muted = false;
+      modalVideo.volume = 1.0;
       modalVideo.loop = true;
       modalVideo.controls = true;
       modalVideo.playsInline = true;
       modalVideo.style.display = 'block';
-      modalVideo.play().catch(() => {});
+      modalVideo.play().catch(() => {
+        // Fallback caso o navegador exija mute por política estrita
+        modalVideo.muted = true;
+        modalVideo.play().catch(() => {});
+      });
     }
     if (clickShield) clickShield.style.display = 'none';
   } else if (parsed.type === 'instagram') {
