@@ -17,8 +17,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video1.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video1.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -28,8 +28,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video2.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video2.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -39,8 +39,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video3.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video3.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -50,8 +50,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video4.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -61,8 +61,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video5.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video5.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -72,8 +72,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video6.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video6.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -83,8 +83,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video7.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video7.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -94,8 +94,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video8.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video8.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
   {
@@ -105,8 +105,8 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video9.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/vídeos/video9.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   }
 ];
@@ -226,9 +226,7 @@ function buildCard(video, playlist) {
     const videoSrc = video.videoUrl || '';
 
     li.innerHTML = `
-      <video class="card__thumb" autoplay muted loop playsinline width="100%">
-        <source src="${escHtml(videoSrc)}" type="video/mp4">
-      </video>
+      <video class="card__thumb" autoplay muted loop playsinline preload="metadata" width="100%" src="${escHtml(videoSrc)}"></video>
       <div class="card__overlay" aria-hidden="true">
         <div class="card__play">
           <div class="card__play-icon">
@@ -242,6 +240,11 @@ function buildCard(video, playlist) {
       </div>
       ${video.duration ? `<span class="card__duration" aria-hidden="true">${escHtml(video.duration)}</span>` : ''}
     `;
+
+    const vEl = li.querySelector('video');
+    if (vEl) {
+      vEl.play().catch(() => {});
+    }
 
     li.addEventListener('click', () => openModal(video, playlist));
     li.addEventListener('keydown', (e) => {
