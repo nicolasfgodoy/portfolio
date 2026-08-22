@@ -1,29 +1,36 @@
 /* ============================================================
-   TOKENS
+   TOKENS & THEME CONFIGURATION
    ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
 :root {
-  --black:       #080808;
-  --surface-0:   #0e0e0e;
-  --surface-1:   #151515;
-  --surface-2:   #1e1e1e;
-  --surface-3:   #2a2a2a;
-  --white:       #f5f3ef;
-  --muted:       #666;
-  --muted-light: #999;
+  --bg:            #0e0f12;
+  --surface-0:     #121316;
+  --surface-1:     #17181c;
+  --surface-2:     #1e1f24;
+  --surface-3:     #282930;
 
-  --accent:      #ff0000;   /* vermelho puro */
-  --accent-dim:  #cc0000;
+  --accent:        #ff2a2a;
+  --accent-hover:  #e02020;
+  --accent-glow:   rgba(255, 42, 42, 0.25);
 
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-body:    'Inter', sans-serif;
+  --white:         #f5f5f7;
+  --white-dim:     #a0a1a8;
+  --muted:         #5e5f68;
 
-  --radius-sm:   4px;
-  --radius-md:   8px;
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-mid:    rgba(255, 255, 255, 0.16);
 
-  --transition:  0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-body:     'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:     'Space Mono', monospace;
 
-  --grid-cols:   3;
-  --grid-gap:    3px;
+  --radius-sm:     4px;
+  --radius-md:     6px;
+
+  --transition:    0.15s ease;
+
+  --grid-cols:     3;
+  --grid-gap:      2px;
 }
 
 /* ============================================================
@@ -38,10 +45,11 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--black);
+  background: var(--bg);
   color: var(--white);
   font-family: var(--font-body);
   font-size: 14px;
@@ -77,7 +85,7 @@ a {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  opacity: 0.035;
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   animation: grain 0.4s steps(1) infinite;
@@ -102,7 +110,7 @@ a {
    ============================================================ */
 .profile {
   background: var(--surface-0);
-  border-bottom: 1px solid var(--surface-2);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -111,37 +119,42 @@ a {
 .profile__inner {
   max-width: 935px;
   margin: 0 auto;
-  padding: 32px 24px 24px;
+  padding: 28px 24px 20px;
   display: flex;
   align-items: flex-start;
-  gap: 40px;
+  gap: 36px;
 }
 
-/* Avatar */
+/* Avatar com Anel de Story do Instagram */
 .profile__avatar-wrap {
   flex-shrink: 0;
 }
 
 .profile__avatar {
-  width: 90px;
-  height: 90px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
-  border: 2px solid transparent;
-  background:
-    linear-gradient(var(--surface-0), var(--surface-0)) padding-box,
-    linear-gradient(135deg, var(--accent), oklch(65% 0.15 200)) border-box;
+  padding: 3px;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .profile__avatar-placeholder {
-  font-family: var(--font-display);
-  font-size: 28px;
-  letter-spacing: 1px;
-  color: var(--accent);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--surface-1);
+  border: 2px solid var(--surface-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--white);
 }
 
 /* Info */
@@ -151,23 +164,25 @@ a {
 }
 
 .profile__name {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 4vw, 36px);
-  letter-spacing: 2px;
+  font-family: var(--font-body);
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
   line-height: 1;
   color: var(--white);
 }
 
 .profile__handle {
-  font-size: 13px;
-  color: var(--muted-light);
-  margin-top: 4px;
-  letter-spacing: 0.03em;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 5px;
+  letter-spacing: 0.01em;
 }
 
 .profile__stats {
   display: flex;
-  gap: 32px;
+  gap: 28px;
   list-style: none;
   margin-top: 16px;
 }
@@ -175,52 +190,56 @@ a {
 .profile__stat {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2px;
+  align-items: flex-start;
+  gap: 1px;
 }
 
 .profile__stat-value {
-  font-family: var(--font-display);
-  font-size: 22px;
-  letter-spacing: 1px;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
   line-height: 1;
   color: var(--white);
 }
 
 .profile__stat-label {
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 10px;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
 .profile__bio {
-  margin-top: 14px;
-  font-size: 13px;
-  color: var(--muted-light);
-  line-height: 1.65;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--white-dim);
+  line-height: 1.7;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0;
 }
 
+/* CTA WhatsApp */
 .profile__cta {
   display: inline-block;
   margin-top: 14px;
-  padding: 8px 20px;
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-sm);
+  padding: 9px 20px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent);
-  transition: background var(--transition), color var(--transition);
+  transition: background var(--transition), transform var(--transition);
 }
 
 .profile__cta:hover {
-  background: var(--accent);
-  color: var(--black);
+  background: var(--accent-hover);
+  transform: translateY(-1px);
 }
 
 /* ============================================================
@@ -232,7 +251,7 @@ a {
   padding: 0 24px;
   display: flex;
   gap: 0;
-  border-top: 1px solid var(--surface-2);
+  border-top: 1px solid var(--border);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -240,25 +259,27 @@ a {
 .filters::-webkit-scrollbar { display: none; }
 
 .filter-btn {
-  padding: 12px 18px;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 11px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--muted);
   border-top: 2px solid transparent;
-  transition: color var(--transition), border-color var(--transition);
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
   white-space: nowrap;
   flex-shrink: 0;
   margin-top: -1px;
 }
 
 .filter-btn:hover {
-  color: var(--white);
+  color: var(--white-dim);
 }
 
 .filter-btn--active {
-  color: var(--white);
+  color: #ffffff;
+  background: var(--accent);
   border-top-color: var(--accent);
 }
 
@@ -282,7 +303,8 @@ a {
   text-align: center;
   padding: 60px 24px;
   color: var(--muted);
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 12px;
   letter-spacing: 0.05em;
 }
 
@@ -302,8 +324,7 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              filter 0.5s ease;
+  transition: transform 0.15s ease, filter 0.15s ease;
   filter: brightness(0.9) saturate(0.85);
 }
 
@@ -312,9 +333,9 @@ a {
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.82) 0%,
-    rgba(0,0,0,0.2) 45%,
-    transparent 70%
+    rgba(14, 15, 18, 0.85) 0%,
+    rgba(14, 15, 18, 0.2) 40%,
+    transparent 65%
   );
   opacity: 0;
   transition: opacity var(--transition);
@@ -333,60 +354,68 @@ a {
 }
 
 .card__play-icon {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  border: 1.5px solid rgba(255,255,255,0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(255, 42, 42, 0.25);
+  border: 1px solid var(--accent);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: scale(0.7);
+  transform: scale(0.8);
   opacity: 0;
   transition: transform var(--transition), opacity var(--transition);
 }
 
 .card__play-icon svg {
-  margin-left: 3px;
+  margin-left: 2px;
+}
+
+.card__play-icon svg path {
+  fill: #ffffff;
+  stroke: #ffffff;
 }
 
 .card__category {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
 }
 
 .card__title {
-  font-family: var(--font-display);
-  font-size: clamp(14px, 2vw, 17px);
-  letter-spacing: 0.5px;
-  line-height: 1.1;
+  font-family: var(--font-body);
+  font-size: clamp(12px, 1.8vw, 15px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
   color: var(--white);
   margin-top: 3px;
 }
 
 .card__duration {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 11px;
-  font-weight: 600;
+  top: 8px;
+  right: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
   color: var(--white);
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.65);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   opacity: 0;
   transition: opacity var(--transition);
 }
 
 /* Hover state */
 .card:hover .card__thumb {
-  transform: scale(1.06);
-  filter: brightness(0.75) saturate(1.1);
+  transform: scale(1.04);
+  filter: brightness(0.78) saturate(0.95);
 }
 
 .card:hover .card__overlay {
@@ -405,16 +434,10 @@ a {
 /* Focus visible */
 .card:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
-/* Category-based color accent on hover */
-.card[data-category="Casamentos"]:hover .card__category { color: oklch(75% 0.17 18); }
-.card[data-category="Festas"]:hover .card__category      { color: oklch(75% 0.2 290); }
-.card[data-category="Corporativo"]:hover .card__category { color: oklch(72% 0.15 200); }
-.card[data-category="Teasers"]:hover .card__category     { color: var(--accent); }
-
-/* Thumbnail placeholder (sem imagem) */
+/* Thumbnail placeholder */
 .card__thumb--placeholder {
   width: 100%;
   height: 100%;
@@ -424,19 +447,21 @@ a {
 /* Badge Instagram */
 .card__badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 10px;
+  top: 8px;
+  left: 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   padding: 2px 6px;
   border-radius: var(--radius-sm);
   line-height: 1.4;
 }
 
 .card__badge--ig {
-  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-  color: #fff;
+  background: rgba(255, 42, 42, 0.15);
+  border: 1px solid rgba(255, 42, 42, 0.4);
+  color: var(--accent);
 }
 
 /* Hidden state for filter */
@@ -457,7 +482,7 @@ a {
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
 .modal[aria-hidden="false"] {
@@ -469,7 +494,9 @@ a {
 .modal__backdrop {
   position: absolute;
   inset: 0;
-  background: #000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* Reel container — 9:16, altura máxima da tela */
@@ -478,9 +505,9 @@ a {
   z-index: 1;
   height: 100dvh;
   width: min(100dvw, calc(100dvh * 9 / 16));
-  background: #000;
-  transform: scale(0.96);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #0a0a0c;
+  transform: scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -489,30 +516,18 @@ a {
   transform: scale(1);
 }
 
-/* Video wrap — preenche o reel inteiro */
+/* Video wrap */
 .modal__video-wrap {
   position: absolute;
   inset: 0;
 }
 
-/*
-  iframe do YouTube: o player é 16:9, mas o container é 9:16.
-  Para cobrir sem barras pretas:
-  - largura do container = W, altura = H (onde H/W = 16/9)
-  - o iframe 16:9 com width=W teria height = W*(9/16)
-  - precisamos height = H, então scale = H / (W*9/16) = (H/W)*(16/9) = (16/9)*(16/9) ≈ 3.16
-  - usamos overflow hidden no pai e posicionamos centralizado
-*/
 .modal__iframe {
   position: absolute;
-  /* Centraliza e escala para cobrir o container 9:16 com conteúdo 16:9 */
   top: 50%;
   left: 50%;
-  /* largura = 100% da largura do container */
-  /* altura proporcional 16:9 baseada na LARGURA */
   width: 100%;
   height: calc(100vw * 16 / 9);
-  /* fallback: se não funcionar, usa viewport */
   min-height: 100%;
   transform: translate(-50%, -50%);
   border: none;
@@ -534,7 +549,6 @@ a {
   background: #000;
 }
 
-/* Escala e recorta o widget do Instagram para exibir APENAS o vídeo */
 .modal__ig-frame {
   position: absolute;
   top: 50%;
@@ -546,7 +560,7 @@ a {
   pointer-events: none;
 }
 
-/* Shield transparente — bloqueia cliques acidentais no iframe */
+/* Shield */
 .modal__click-shield {
   position: absolute;
   inset: 0;
@@ -609,18 +623,18 @@ a {
   }
 }
 
-/* Gradient overlay no rodapé — para legibilidade do texto */
+/* Overlay info no rodapé */
 .modal__overlay-info {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 3;
-  padding: 60px 20px 32px;
+  padding: 56px 20px 28px;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,0.75) 0%,
-    rgba(0,0,0,0.3) 60%,
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.3) 55%,
     transparent 100%
   );
   pointer-events: none;
@@ -628,51 +642,52 @@ a {
 
 .modal__category {
   display: inline-block;
-  font-size: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .modal__title {
-  font-family: var(--font-display);
-  font-size: clamp(20px, 5vw, 28px);
-  letter-spacing: 1px;
-  line-height: 1.05;
+  font-family: var(--font-body);
+  font-size: clamp(16px, 4.5vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   color: var(--white);
-  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
 }
 
-/* Botão fechar — fixed, flutua sobre tudo, fora do reel */
+/* Botão fechar */
 .modal__close {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 18px;
+  right: 18px;
   z-index: 1100;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: rgba(14, 15, 18, 0.75);
+  border: 1px solid var(--border-mid);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+  color: var(--white);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
   pointer-events: auto;
 }
 
 .modal__close:hover {
-  background: rgba(0, 0, 0, 0.65);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
 }
 
-/* Mobile: reel ocupa a tela inteira sem folga */
+/* Mobile */
 @media (max-width: 600px) {
   .modal {
     padding: 0;
@@ -685,8 +700,6 @@ a {
     border-radius: 0;
   }
 
-  /* No mobile o container tem width = 100dvw, então o iframe precisa de:
-     height = 100dvw * (16/9) para cobrir a altura do reel (100dvh) */
   .modal__iframe {
     width: 100dvw;
     height: calc(100dvw * 16 / 9);
@@ -694,7 +707,7 @@ a {
 }
 
 /* ============================================================
-   FILM BURN — versão swipe (modo SCREEN, 2.8s)
+   FILM BURN — versão swipe
    ============================================================ */
 .film-burn--swipe {
   z-index: 21;
@@ -745,23 +758,23 @@ a {
    REEL SWIPE — animações de transição entre vídeos
    ============================================================ */
 .modal__reel {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
 }
 
 .modal__reel--exit-up {
-  animation: reel-exit-up 0.35s ease-in forwards;
+  animation: reel-exit-up 0.3s ease-in forwards;
 }
 
 .modal__reel--exit-down {
-  animation: reel-exit-down 0.35s ease-in forwards;
+  animation: reel-exit-down 0.3s ease-in forwards;
 }
 
 .modal__reel--enter-up {
-  animation: reel-enter-up 0.35s ease-out forwards;
+  animation: reel-enter-up 0.3s ease-out forwards;
 }
 
 .modal__reel--enter-down {
-  animation: reel-enter-down 0.35s ease-out forwards;
+  animation: reel-enter-down 0.3s ease-out forwards;
 }
 
 @keyframes reel-exit-up   { to { transform: translateY(-8%) scale(0.96); opacity: 0; } }
@@ -779,21 +792,22 @@ a {
   }
 
   .profile__inner {
-    padding: 20px 16px 16px;
-    gap: 20px;
+    padding: 18px 16px 14px;
+    gap: 18px;
   }
 
   .profile__avatar {
-    width: 72px;
-    height: 72px;
+    width: 68px;
+    height: 68px;
+    padding: 2px;
   }
 
   .profile__avatar-placeholder {
-    font-size: 22px;
+    font-size: 16px;
   }
 
   .profile__name {
-    font-size: 26px;
+    font-size: 22px;
   }
 
   .profile__stats {
@@ -801,13 +815,11 @@ a {
   }
 
   .profile__stat-value {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .profile__bio {
-    display: flex;
     font-size: 11px;
-    gap: 1px;
   }
 
   .profile__cta {
@@ -820,7 +832,7 @@ a {
 
   .filter-btn {
     padding: 10px 12px;
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .grid-section {
@@ -830,10 +842,10 @@ a {
 
 @media (max-width: 480px) {
   .profile__stats {
-    gap: 16px;
+    gap: 14px;
   }
 
   .card__title {
-    font-size: 12px;
+    font-size: 11px;
   }
 }
