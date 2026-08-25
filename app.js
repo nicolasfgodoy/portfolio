@@ -582,8 +582,6 @@ function navigateTo(direction) {
   const exitClass  = direction > 0 ? 'modal__reel--exit-up'   : 'modal__reel--exit-down';
   const enterClass = direction > 0 ? 'modal__reel--enter-up'  : 'modal__reel--enter-down';
 
-  triggerModalWipe();
-
   modalReel.classList.add(exitClass);
 
   setTimeout(() => {
