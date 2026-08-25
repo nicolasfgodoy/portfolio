@@ -635,14 +635,21 @@ function setupIntroAnimation() {
   const splash = document.getElementById('splash-intro');
   if (!splash) return;
 
+  // Garante que a fonte League Gothic foi carregada antes de exibir o texto
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      document.documentElement.classList.add('fonts-loaded');
+    });
+  } else {
+    document.documentElement.classList.add('fonts-loaded');
+  }
+
+  // Quando a transição de varrimento (sweep) passar (~1.7s), revela o site imediatamente sem delay
   setTimeout(() => {
     splash.classList.add('splash-finish');
     document.body.classList.remove('loading-intro');
-
-    setTimeout(() => {
-      splash.remove();
-    }, 500);
-  }, 2300);
+    splash.remove();
+  }, 1700);
 }
 
 function initApp() {

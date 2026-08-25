@@ -52,9 +52,10 @@
 }
 
 .brand-logo {
-  font-family: var(--font-heading);
+  font-family: "League Gothic", Impact, sans-serif;
   font-style: italic;
   font-stretch: condensed;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   line-height: 0.9;
@@ -62,7 +63,14 @@
   white-space: nowrap;
   user-select: none;
   font-size: clamp(3.2rem, 11vw, 9rem);
+  opacity: 0;
   animation: logoOut 0.4s cubic-bezier(0.7, 0, 0.3, 1) forwards 1.7s;
+}
+
+/* Exibe a logo somente após o carregamento da fonte para evitar FOUT */
+html.fonts-loaded .brand-logo,
+body.fonts-loaded .brand-logo {
+  opacity: 1;
 }
 
 .wipe-layer {
@@ -77,17 +85,17 @@
 
 .layer-red {
   background-color: #e50914;
-  animation: sweepScreen 1.1s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.8s;
+  animation: sweepScreen 0.9s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.7s;
 }
 
 .layer-white {
   background-color: #ffffff;
-  animation: sweepScreen 1.05s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.95s;
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.85s;
 }
 
 .layer-dark {
   background-color: #0f0f0f;
-  animation: sweepScreen 1.0s cubic-bezier(0.77, 0, 0.175, 1) forwards 1.1s;
+  animation: sweepScreen 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards 1.0s;
 }
 
 @keyframes sweepScreen {
@@ -102,7 +110,7 @@
 
 .splash-finish {
   opacity: 0;
-  transition: opacity 0.5s ease-out;
+  display: none !important;
   pointer-events: none !important;
 }
 
