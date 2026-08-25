@@ -400,15 +400,23 @@ function initFilters(allVideos) {
 
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
+      if (btn.classList.contains('filter-btn--active')) return;
+
       buttons.forEach((b) => b.classList.remove('filter-btn--active'));
       btn.classList.add('filter-btn--active');
+
+      const grid = document.getElementById('video-grid');
+      if (grid) grid.classList.add('grid--filtering');
 
       const filter = btn.dataset.filter;
       const filtered = filter === 'all'
         ? allVideos
         : allVideos.filter((v) => v.category === filter);
 
-      renderGrid(filtered);
+      setTimeout(() => {
+        renderGrid(filtered);
+        if (grid) grid.classList.remove('grid--filtering');
+      }, 120);
     });
   });
 }

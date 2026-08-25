@@ -352,7 +352,7 @@ a {
 .filters::-webkit-scrollbar { display: none; }
 
 .filter-btn {
-  padding: 11px 16px;
+  padding: 11px 18px;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 400;
@@ -360,20 +360,47 @@ a {
   text-transform: uppercase;
   color: var(--muted);
   border-top: 2px solid transparent;
-  transition: color var(--transition), border-color var(--transition), background var(--transition);
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   flex-shrink: 0;
   margin-top: -1px;
+  position: relative;
 }
 
 .filter-btn:hover {
   color: var(--white-dim);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .filter-btn--active {
   color: #ffffff;
   background: var(--accent);
   border-top-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.35);
+  animation: tabSelect 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes tabSelect {
+  0% { transform: scale(0.95) translateY(0); }
+  50% { transform: scale(1.04) translateY(-2px); }
+  100% { transform: scale(1) translateY(-1px); }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  gap: var(--grid-gap);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.grid--filtering {
+  opacity: 0.4;
+  transform: scale(0.995);
 }
 
 /* ============================================================
