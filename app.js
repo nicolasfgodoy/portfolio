@@ -644,12 +644,15 @@ function setupIntroAnimation() {
     document.documentElement.classList.add('fonts-loaded');
   }
 
-  // Quando a transição de varrimento (sweep) passar (~1.7s), revela o site imediatamente sem delay
+  // O texto desaparece e as faixas vermelha e branca passam por cima revelando o site no fundo
   setTimeout(() => {
     splash.classList.add('splash-finish');
     document.body.classList.remove('loading-intro');
-    splash.remove();
-  }, 1700);
+
+    setTimeout(() => {
+      splash.remove();
+    }, 450);
+  }, 1450);
 }
 
 function initApp() {

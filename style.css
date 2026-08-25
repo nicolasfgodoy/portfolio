@@ -35,7 +35,7 @@
 }
 
 /* ============================================================
-   SPLASH SCREEN / INTRO FULLSCREEN
+   SPLASH SCREEN / INTRO FULLSCREEN OVERLAY
    ============================================================ */
 #splash-intro {
   position: fixed;
@@ -51,11 +51,20 @@
   pointer-events: all;
 }
 
+.splash-curtain {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .brand-logo {
-  font-family: "League Gothic", Impact, sans-serif;
-  font-style: italic;
-  font-stretch: condensed;
-  font-weight: 400;
+  font-family: "League Gothic", Impact, sans-serif !important;
+  font-style: italic !important;
+  font-stretch: condensed !important;
+  font-weight: 400 !important;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   line-height: 0.9;
@@ -63,17 +72,17 @@
   white-space: nowrap;
   user-select: none;
   font-size: clamp(3.2rem, 11vw, 9rem);
+  z-index: 10;
   opacity: 0;
-  animation: logoOut 0.4s cubic-bezier(0.7, 0, 0.3, 1) forwards 1.7s;
+  animation: logoFadeOut 0.35s cubic-bezier(0.7, 0, 0.3, 1) forwards 1.2s;
 }
 
-/* Exibe a logo somente após o carregamento da fonte para evitar FOUT */
 html.fonts-loaded .brand-logo,
 body.fonts-loaded .brand-logo {
   opacity: 1;
 }
 
-.wipe-layer {
+.wipe-bar {
   position: absolute;
   top: -20vh;
   left: -20vw;
@@ -81,21 +90,17 @@ body.fonts-loaded .brand-logo {
   height: 140vh;
   transform: translateX(-110%) skewX(-14deg);
   pointer-events: none;
+  z-index: 20;
 }
 
 .layer-red {
   background-color: #e50914;
-  animation: sweepScreen 0.9s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.7s;
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.8s;
 }
 
 .layer-white {
   background-color: #ffffff;
-  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.85s;
-}
-
-.layer-dark {
-  background-color: #0f0f0f;
-  animation: sweepScreen 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards 1.0s;
+  animation: sweepScreen 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.95s;
 }
 
 @keyframes sweepScreen {
@@ -103,15 +108,15 @@ body.fonts-loaded .brand-logo {
   100% { transform: translateX(110%) skewX(-14deg); }
 }
 
-@keyframes logoOut {
+@keyframes logoFadeOut {
   0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.97); }
+  100% { opacity: 0; transform: scale(0.96); }
 }
 
 .splash-finish {
   opacity: 0;
-  display: none !important;
   pointer-events: none !important;
+  transition: opacity 0.4s ease-out;
 }
 
 body.loading-intro {
