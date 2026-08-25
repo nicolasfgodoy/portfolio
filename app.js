@@ -631,7 +631,23 @@ function escHtml(str) {
    INIT — Renderização imediata e síncrona
    ============================================================ */
 
+function setupIntroAnimation() {
+  const splash = document.getElementById('splash-intro');
+  if (!splash) return;
+
+  setTimeout(() => {
+    splash.classList.add('splash-finish');
+    document.body.classList.remove('loading-intro');
+
+    setTimeout(() => {
+      splash.remove();
+    }, 500);
+  }, 2300);
+}
+
 function initApp() {
+  setupIntroAnimation();
+
   // 1. Renderiza imediatamente com VIDEOS_DATA
   renderGrid(VIDEOS_DATA);
   initFilters(VIDEOS_DATA);
