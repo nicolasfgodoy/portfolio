@@ -680,13 +680,15 @@ function setupIntroAnimation() {
   const splash = document.getElementById('splash-intro');
   if (!splash) return;
 
-  // Garante que a fonte League Gothic foi carregada antes de exibir o texto
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => {
-      document.documentElement.classList.add('fonts-loaded');
-    });
-  } else {
+  const startSplash = () => {
     document.documentElement.classList.add('fonts-loaded');
+    splash.classList.add('splash-active');
+  };
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(startSplash);
+  } else {
+    startSplash();
   }
 
   // O texto fica 100% visível. Aos 2.3s as faixas vermelha e branca passam POR CIMA do texto como uma mascara, cobrindo o texto e revelando o site no fundo.

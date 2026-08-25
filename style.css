@@ -49,7 +49,26 @@
   z-index: 99999;
   overflow: hidden;
   pointer-events: all;
+}
+
+#splash-intro .brand-logo {
+  opacity: 1;
+}
+
+#splash-intro.splash-active {
   animation: revealSiteBg 0.01s forwards 2.72s;
+}
+
+#splash-intro.splash-active .brand-logo {
+  animation: logoBreath 2.3s ease-out forwards;
+}
+
+#splash-intro.splash-active .layer-red {
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.3s;
+}
+
+#splash-intro.splash-active .layer-white {
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.45s;
 }
 
 @keyframes revealSiteBg {
@@ -69,14 +88,8 @@
   user-select: none;
   font-size: clamp(3.2rem, 11vw, 9rem);
   z-index: 10;
-  opacity: 0;
-  transform: scale(0.96);
-  animation: logoBreath 2.3s ease-out forwards;
-}
-
-html.fonts-loaded .brand-logo,
-body.fonts-loaded .brand-logo {
   opacity: 1;
+  transform: scale(0.96);
 }
 
 .wipe-bar {
@@ -719,17 +732,19 @@ a {
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
+  visibility: hidden;
 }
 
 .modal-wipe--active {
   opacity: 1;
+  visibility: visible;
   animation: revealSiteBg 0.01s forwards 2.72s;
 }
 
 .modal-wipe .brand-logo {
   font-size: clamp(2.5rem, 8vw, 6rem);
   z-index: 10;
-  opacity: 0;
+  opacity: 1;
 }
 
 .modal-wipe--active .brand-logo {
