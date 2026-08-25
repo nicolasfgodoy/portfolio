@@ -17,7 +17,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
     "duration": ""
   },
@@ -28,7 +28,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20dubatuq%2099_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_6.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20dubatuq%2099_prob4.mp4",
     "duration": ""
   },
@@ -39,7 +39,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20BURGER%20DIA%202.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_2.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20BURGER%20DIA%202.mp4",
     "duration": ""
   },
@@ -50,7 +50,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20burger%20dia%201-2.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_3.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20burger%20dia%201-2.mp4",
     "duration": ""
   },
@@ -61,7 +61,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20supernova_prob4_1_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_1.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20supernova_prob4_1_prob4.mp4",
     "duration": ""
   },
@@ -72,7 +72,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20cerimonia.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_5.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20cerimonia.mp4",
     "duration": ""
   },
@@ -83,7 +83,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20VULGO%20FK_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_15.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20VULGO%20FK_prob4.mp4",
     "duration": ""
   },
@@ -94,7 +94,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20cerimonia1.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_5.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20cerimonia1.mp4",
     "duration": ""
   },
@@ -105,7 +105,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20dubatuq%20casamento_1_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_7.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20dubatuq%20casamento_1_prob4.mp4",
     "duration": ""
   },
@@ -116,7 +116,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20finesse_1_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_8.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20finesse_1_prob4.mp4",
     "duration": ""
   },
@@ -127,7 +127,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20finesse_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_9.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20finesse_prob4.mp4",
     "duration": ""
   },
@@ -138,7 +138,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pagode%202_2.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_10.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pagode%202_2.mp4",
     "duration": ""
   },
@@ -149,7 +149,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pizza%20dia%201.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_11.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pizza%20dia%201.mp4",
     "duration": ""
   },
@@ -160,7 +160,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pizza%20dia%202.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_12.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pizza%20dia%202.mp4",
     "duration": ""
   },
@@ -171,7 +171,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20quizomba.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_13.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20quizomba.mp4",
     "duration": ""
   },
@@ -182,7 +182,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20shopee_prob4.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_17.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20shopee_prob4.mp4",
     "duration": ""
   },
@@ -193,7 +193,7 @@ const VIDEOS_DATA = [
     "date": "",
     "location": "São Paulo, BR",
     "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/kim_2.mp4",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_16.mp4",
     "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/kim_2.mp4",
     "duration": ""
   }
@@ -311,10 +311,10 @@ function buildCard(video, playlist) {
     li.setAttribute('tabindex', '0');
     li.setAttribute('aria-label', `${video.title || 'Vídeo'} — ${video.category || ''}`);
 
-    const videoSrc = video.videoUrl || '';
+    const thumbSrc = video.thumbnail || video.videoUrl || '';
 
     li.innerHTML = `
-      <video class="card__thumb" autoplay muted loop playsinline preload="metadata" width="100%" src="${escHtml(videoSrc)}"></video>
+      <video class="card__thumb" autoplay muted loop playsinline preload="metadata" width="100%" src="${escHtml(thumbSrc)}"></video>
       <div class="card__overlay" aria-hidden="true">
         <div class="card__play">
           <div class="card__play-icon">
