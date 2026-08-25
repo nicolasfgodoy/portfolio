@@ -711,7 +711,7 @@ function initApp() {
   setupEventListeners();
 
   // 2. Tenta atualizar via videos.json em segundo plano (se disponível)
-  fetch('./videos.json?t=' + Date.now())
+  fetch('./videos.json?v=1.0.3')
     .then((res) => {
       if (res.ok) return res.json();
       throw new Error('Response not ok');
