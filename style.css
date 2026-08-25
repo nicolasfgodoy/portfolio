@@ -49,20 +49,11 @@
   z-index: 99999;
   overflow: hidden;
   pointer-events: all;
-  animation: hideBg 0s forwards 2.7s;
+  animation: revealSiteBg 0.01s forwards 2.72s;
 }
 
-@keyframes hideBg {
+@keyframes revealSiteBg {
   to { background-color: transparent; }
-}
-
-.splash-curtain {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .brand-logo {
@@ -96,7 +87,7 @@ body.fonts-loaded .brand-logo {
   height: 140vh;
   transform: translateX(-110%) skewX(-14deg);
   pointer-events: none;
-  z-index: 20;
+  z-index: 30;
 }
 
 .layer-red {
@@ -106,7 +97,7 @@ body.fonts-loaded .brand-logo {
 
 .layer-white {
   background-color: #ffffff;
-  animation: sweepScreen 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.42s;
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.45s;
 }
 
 @keyframes sweepScreen {
@@ -115,10 +106,10 @@ body.fonts-loaded .brand-logo {
 }
 
 @keyframes logoBreath {
-  0% { opacity: 0; transform: scale(0.96); }
-  15% { opacity: 1; transform: scale(0.98); }
-  99.9% { opacity: 1; transform: scale(1.03); }
-  100% { opacity: 0; transform: scale(1.03); }
+  0% { opacity: 0; transform: scale(0.96); opacity: 0; }
+  15% { opacity: 1; transform: scale(0.98); opacity: 1; }
+  99.9% { opacity: 1; transform: scale(1.03); opacity: 1; }
+  100% { opacity: 0; transform: scale(1.03); opacity: 0; }
 }
 
 .splash-finish {

@@ -644,12 +644,12 @@ function setupIntroAnimation() {
     document.documentElement.classList.add('fonts-loaded');
   }
 
-  // O texto fica visível por 2.3s. Exatamente quando a varredura passa, o texto e o fundo desaparecem instantaneamente, revelando o site montado no fundo.
+  // O texto fica 100% visível. Aos 2.3s as faixas vermelha e branca passam POR CIMA do texto como uma mascara, cobrindo o texto e revelando o site no fundo.
   setTimeout(() => {
     splash.classList.add('splash-finish');
     document.body.classList.remove('loading-intro');
     splash.remove();
-  }, 3200);
+  }, 3300);
 }
 
 function initApp() {
