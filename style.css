@@ -711,7 +711,7 @@ a {
 .modal-wipe {
   position: absolute;
   inset: 0;
-  z-index: 20;
+  z-index: 99;
   background-color: #161616;
   display: flex;
   justify-content: center;
@@ -719,11 +719,11 @@ a {
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
-  animation: revealSiteBg 0.01s forwards 2.72s;
 }
 
 .modal-wipe--active {
   opacity: 1;
+  animation: revealSiteBg 0.01s forwards 2.72s;
 }
 
 .modal-wipe .brand-logo {
