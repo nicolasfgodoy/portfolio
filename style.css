@@ -706,58 +706,41 @@ a {
 }
 
 /* ============================================================
-   FILM BURN — transição em modo SCREEN
+   MODAL INTRO WIPE — Animação igual a abertura do site ao abrir vídeo
    ============================================================ */
-.film-burn {
+.modal-wipe {
   position: absolute;
   inset: 0;
   z-index: 20;
+  background-color: #161616;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
   pointer-events: none;
   opacity: 0;
-  mix-blend-mode: screen;
 }
 
-.film-burn--active {
-  animation: film-burn-in 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+.modal-wipe--active {
+  opacity: 1;
 }
 
-@keyframes film-burn-in {
-  0% {
-    opacity: 1;
-    background:
-      radial-gradient(ellipse at 30% 40%, #ff5500 0%, transparent 60%),
-      radial-gradient(ellipse at 70% 60%, #ff0055 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 50%, #ffffaa 0%, transparent 40%),
-      #ff2200;
-    filter: brightness(2.8) saturate(2.2);
-  }
-  20% {
-    opacity: 1;
-    background:
-      radial-gradient(ellipse at 60% 30%, #ff7700 0%, transparent 65%),
-      radial-gradient(ellipse at 20% 70%, #ff0022 0%, transparent 50%),
-      #cc1100;
-    filter: brightness(2.2) saturate(2);
-  }
-  50% {
-    opacity: 0.85;
-    background:
-      radial-gradient(ellipse at 50% 50%, #ff3300 0%, transparent 70%),
-      #550500;
-    filter: brightness(1.6) saturate(1.6);
-  }
-  75% {
-    opacity: 0.4;
-    background:
-      radial-gradient(ellipse at 50% 50%, #aa1100 0%, transparent 80%),
-      #110000;
-    filter: brightness(1.2);
-  }
-  100% {
-    opacity: 0;
-    background: transparent;
-    filter: none;
-  }
+.modal-wipe .brand-logo {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  z-index: 10;
+  opacity: 0;
+}
+
+.modal-wipe--active .brand-logo {
+  animation: logoBreath 2.3s ease-out forwards;
+}
+
+.modal-wipe--active .layer-red {
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.3s;
+}
+
+.modal-wipe--active .layer-white {
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.45s;
 }
 
 /* Overlay info no rodapé */
@@ -846,52 +829,6 @@ a {
   }
 }
 
-/* ============================================================
-   FILM BURN — versão swipe
-   ============================================================ */
-.film-burn--swipe {
-  z-index: 21;
-}
-
-.film-burn--swipe.film-burn--active {
-  animation: film-burn-swipe 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes film-burn-swipe {
-  0% {
-    opacity: 1;
-    background:
-      radial-gradient(ellipse at 20% 50%, #ff6600 0%, transparent 55%),
-      radial-gradient(ellipse at 80% 50%, #ff0044 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 20%, #ffffcc 0%, transparent 40%),
-      #220400;
-    filter: brightness(3) saturate(2.2);
-  }
-  20% {
-    opacity: 1;
-    background:
-      radial-gradient(ellipse at 70% 40%, #ff4400 0%, transparent 60%),
-      radial-gradient(ellipse at 30% 60%, #cc0022 0%, transparent 50%),
-      #180200;
-    filter: brightness(2.4) saturate(2);
-  }
-  50% {
-    opacity: 0.85;
-    background:
-      radial-gradient(ellipse at 50% 50%, #ff2200 0%, transparent 70%),
-      #0d0100;
-    filter: brightness(1.7) saturate(1.5);
-  }
-  75% {
-    opacity: 0.4;
-    background: #050000;
-    filter: brightness(1.2);
-  }
-  100% {
-    opacity: 0;
-    background: transparent;
-    filter: none;
-  }
 }
 
 /* ============================================================

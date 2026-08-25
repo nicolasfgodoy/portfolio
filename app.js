@@ -279,23 +279,18 @@ function getThumbnail(video) {
 }
 
 /* ============================================================
-   FILM BURN — animação de transição ao abrir modal
+   MODAL WIPE — animação de transição estilo introdução do site
    ============================================================ */
 
-function triggerFilmBurn() {
-  const burn = document.getElementById('film-burn');
-  if (!burn) return;
-  burn.classList.remove('film-burn--active');
-  void burn.offsetWidth;
-  burn.classList.add('film-burn--active');
-}
-
-function triggerFilmBurnSwipe() {
-  const burn = document.getElementById('film-burn-swipe');
-  if (!burn) return;
-  burn.classList.remove('film-burn--active');
-  void burn.offsetWidth;
-  burn.classList.add('film-burn--active');
+function triggerModalWipe() {
+  const wipe = document.getElementById('modal-wipe');
+  if (!wipe) return;
+  wipe.classList.remove('modal-wipe--active');
+  void wipe.offsetWidth;
+  wipe.classList.add('modal-wipe--active');
+  setTimeout(() => {
+    wipe.classList.remove('modal-wipe--active');
+  }, 3300);
 }
 
 /* ============================================================
@@ -561,7 +556,7 @@ function openModal(video, playlist) {
 
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-  triggerFilmBurn();
+  triggerModalWipe();
   if (closeBtn) requestAnimationFrame(() => closeBtn.focus());
 }
 
@@ -587,7 +582,7 @@ function navigateTo(direction) {
   const exitClass  = direction > 0 ? 'modal__reel--exit-up'   : 'modal__reel--exit-down';
   const enterClass = direction > 0 ? 'modal__reel--enter-up'  : 'modal__reel--enter-down';
 
-  triggerFilmBurnSwipe();
+  triggerModalWipe();
 
   modalReel.classList.add(exitClass);
 
