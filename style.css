@@ -74,7 +74,8 @@
   font-size: clamp(3.2rem, 11vw, 9rem);
   z-index: 10;
   opacity: 0;
-  animation: logoFadeOut 0.35s cubic-bezier(0.7, 0, 0.3, 1) forwards 1.2s;
+  transform: scale(0.96);
+  animation: logoBreath 2.3s ease-out forwards;
 }
 
 html.fonts-loaded .brand-logo,
@@ -95,12 +96,12 @@ body.fonts-loaded .brand-logo {
 
 .layer-red {
   background-color: #e50914;
-  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.8s;
+  animation: sweepScreen 0.9s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.3s;
 }
 
 .layer-white {
   background-color: #ffffff;
-  animation: sweepScreen 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards 0.95s;
+  animation: sweepScreen 0.85s cubic-bezier(0.77, 0, 0.175, 1) forwards 2.45s;
 }
 
 @keyframes sweepScreen {
@@ -108,9 +109,11 @@ body.fonts-loaded .brand-logo {
   100% { transform: translateX(110%) skewX(-14deg); }
 }
 
-@keyframes logoFadeOut {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.96); }
+@keyframes logoBreath {
+  0% { opacity: 0; transform: scale(0.96); }
+  15% { opacity: 1; transform: scale(0.98); }
+  85% { opacity: 1; transform: scale(1.03); }
+  100% { opacity: 0; transform: scale(1.04); }
 }
 
 .splash-finish {
