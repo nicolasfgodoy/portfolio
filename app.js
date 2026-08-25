@@ -395,18 +395,53 @@ function renderGrid(videos) {
    FILTERS
    ============================================================ */
 
-function initFilters(allVideos) {
-  const buttons = document.querySelectorAll('.filter-btn');
+function updatePillPosition(activeBtn) {
+  const nav = document.getElementById('filters-nav');
+  const pill = document.getElementById('filters-pill');
+  if (!nav || !pill || !activeBtn) return;
 
-  buttons.forEach((btn) => {
+  const navRect = nav.getBoundingClientRect();
+  const btnRect = activeBtn.getBoundingClientRect();
+
+  const left = btnRect.left - navRect.left + nav.scrollLeft;
+  const width = btnRect.width;
+
+  pill.style.transform = `translateX(${left}px)`;
+  pill.style.width = `${width}px`;
+  pill.style.opacity = '1';
+}
+
+function initFilters(allVideos) {
+  const buttons = Array.from(document.querySelectorAll('.filter-btn'));
+  const activeBtn = document.querySelector('.filter-btn--active') || buttons[0];
+
+  if (activeBtn) {
+    updatePillPosition(activeBtn);
+  }
+
+  window.addEventListener('resize', () => {
+    const currentActive = document.querySelector('.filter-btn--active');
+    if (currentActive) updatePillPosition(currentActive);
+  });
+
+  buttons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
-      if (btn.classList.contains('filter-btn--active')) return;
+      const currentActive = document.querySelector('.filter-btn--active');
+      if (btn === currentActive) return;
+
+      const prevIndex = buttons.indexOf(currentActive);
+      const direction = index > prevIndex ? 'left' : 'right';
 
       buttons.forEach((b) => b.classList.remove('filter-btn--active'));
       btn.classList.add('filter-btn--active');
 
+      updatePillPosition(btn);
+
       const grid = document.getElementById('video-grid');
-      if (grid) grid.classList.add('grid--filtering');
+      if (grid) {
+        grid.classList.remove('grid--slide-left', 'grid--slide-right');
+        grid.classList.add(direction === 'left' ? 'grid--slide-left' : 'grid--slide-right');
+      }
 
       const filter = btn.dataset.filter;
       const filtered = filter === 'all'
@@ -415,8 +450,15 @@ function initFilters(allVideos) {
 
       setTimeout(() => {
         renderGrid(filtered);
-        if (grid) grid.classList.remove('grid--filtering');
-      }, 120);
+        if (grid) {
+          grid.style.transition = 'none';
+          grid.classList.remove('grid--slide-left', 'grid--slide-right');
+          grid.classList.add(direction === 'left' ? 'grid--slide-right' : 'grid--slide-left');
+          void grid.offsetWidth;
+          grid.style.transition = '';
+          grid.classList.remove('grid--slide-left', 'grid--slide-right');
+        }
+      }, 150);
     });
   });
 }
