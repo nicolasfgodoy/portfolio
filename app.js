@@ -579,20 +579,9 @@ function navigateTo(direction) {
   const nextIndex = currentIndex + direction;
   if (nextIndex < 0 || nextIndex >= currentPlaylist.length) return;
 
-  const exitClass  = direction > 0 ? 'modal__reel--exit-up'   : 'modal__reel--exit-down';
-  const enterClass = direction > 0 ? 'modal__reel--enter-up'  : 'modal__reel--enter-down';
-
-  modalReel.classList.add(exitClass);
-
-  setTimeout(() => {
-    modalReel.classList.remove(exitClass);
-    currentIndex = nextIndex;
-    loadVideo(currentPlaylist[currentIndex]);
-    modalReel.classList.add(enterClass);
-    modalReel.addEventListener('animationend', () => {
-      modalReel.classList.remove(enterClass);
-    }, { once: true });
-  }, 350);
+  currentIndex = nextIndex;
+  triggerModalWipe();
+  loadVideo(currentPlaylist[currentIndex]);
 }
 
 /* --- Event listeners para o modal e gestos --- */
