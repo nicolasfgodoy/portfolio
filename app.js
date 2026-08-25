@@ -290,7 +290,7 @@ function triggerModalWipe() {
   wipe.classList.add('modal-wipe--active');
   setTimeout(() => {
     wipe.classList.remove('modal-wipe--active');
-  }, 3300);
+  }, 1800);
 }
 
 /* ============================================================
