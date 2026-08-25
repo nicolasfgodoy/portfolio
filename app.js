@@ -644,15 +644,12 @@ function setupIntroAnimation() {
     document.documentElement.classList.add('fonts-loaded');
   }
 
-  // O texto fica por 2.3s com animação de escala sutil. Em seguida, a varredura passa e revela o site.
+  // O texto fica visível por 2.3s. Exatamente quando a varredura passa, o texto e o fundo desaparecem instantaneamente, revelando o site montado no fundo.
   setTimeout(() => {
     splash.classList.add('splash-finish');
     document.body.classList.remove('loading-intro');
-
-    setTimeout(() => {
-      splash.remove();
-    }, 600);
-  }, 3100);
+    splash.remove();
+  }, 3200);
 }
 
 function initApp() {
