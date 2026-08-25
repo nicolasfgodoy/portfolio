@@ -891,32 +891,28 @@ a {
 }
 
 /* ============================================================
-   REEL SWIPE — animações de transição entre vídeos
+   REEL SWIPE — animações de transição estilo Instagram Reels / TikTok
    ============================================================ */
-.modal__reel {
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
-}
-
 .modal__reel--exit-up {
-  animation: reel-exit-up 0.3s ease-in forwards;
+  animation: reel-exit-up 0.22s cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
 .modal__reel--exit-down {
-  animation: reel-exit-down 0.3s ease-in forwards;
+  animation: reel-exit-down 0.22s cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
 .modal__reel--enter-up {
-  animation: reel-enter-up 0.3s ease-out forwards;
+  animation: reel-enter-up 0.25s cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
 .modal__reel--enter-down {
-  animation: reel-enter-down 0.3s ease-out forwards;
+  animation: reel-enter-down 0.25s cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 
-@keyframes reel-exit-up   { to { transform: translateY(-8%) scale(0.96); opacity: 0; } }
-@keyframes reel-exit-down { to { transform: translateY( 8%) scale(0.96); opacity: 0; } }
-@keyframes reel-enter-up  { from { transform: translateY( 8%) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
-@keyframes reel-enter-down{ from { transform: translateY(-8%) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes reel-exit-up   { to { transform: translateY(-100%); opacity: 0.7; } }
+@keyframes reel-exit-down { to { transform: translateY(100%); opacity: 0.7; } }
+@keyframes reel-enter-up  { from { transform: translateY(100%); opacity: 0.7; } to { transform: translateY(0); opacity: 1; } }
+@keyframes reel-enter-down{ from { transform: translateY(-100%); opacity: 0.7; } to { transform: translateY(0); opacity: 1; } }
 
 /* ============================================================
    RESPONSIVE — HEADER & GRID

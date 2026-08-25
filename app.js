@@ -579,9 +579,24 @@ function navigateTo(direction) {
   const nextIndex = currentIndex + direction;
   if (nextIndex < 0 || nextIndex >= currentPlaylist.length) return;
 
-  currentIndex = nextIndex;
-  triggerModalWipe();
-  loadVideo(currentPlaylist[currentIndex]);
+  // Direção 1 (avançar para baixo): sai pra cima (-100%), entra por baixo (100%)
+  // Direção -1 (voltar para cima): sai pra baixo (100%), entra por cima (-100%)
+  const exitClass  = direction > 0 ? 'modal__reel--exit-up'   : 'modal__reel--exit-down';
+  const enterClass = direction > 0 ? 'modal__reel--enter-up'  : 'modal__reel--enter-down';
+
+  modalReel.classList.add(exitClass);
+
+  setTimeout(() => {
+    modalReel.classList.remove(exitClass);
+    currentIndex = nextIndex;
+    triggerModalWipe();
+    loadVideo(currentPlaylist[currentIndex]);
+
+    modalReel.classList.add(enterClass);
+    modalReel.addEventListener('animationend', () => {
+      modalReel.classList.remove(enterClass);
+    }, { once: true });
+  }, 220);
 }
 
 /* --- Event listeners para o modal e gestos --- */
