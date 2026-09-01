@@ -711,17 +711,17 @@ function initApp() {
     })
     .then((data) => {
       if (Array.isArray(data) && data.length > 0) {
-        // Mapeia os dados do R2 para a estrutura esperada pelo layout
+        // Mapeia os dados do R2 preservando thumbnail e videoUrl originais
         activeVideosList = data.map((item, index) => ({
-          id: item.slug || index + 1,
+          id: item.id || item.slug || index + 1,
           title: item.title,
           category: item.category || 'Geral',
-          date: '',
+          date: item.date || '',
           location: item.location || 'São Paulo, BR',
-          description: (item.tags || []).join(', '),
-          thumbnail: `https://portfolio-api.nicolasfgodoy.workers.dev/media/projetos/${item.slug}/preview.mp4`,
-          videoUrl: `https://portfolio-api.nicolasfgodoy.workers.dev/media/projetos/${item.slug}/video.mp4`,
-          duration: ''
+          description: item.description || (item.tags || []).join(', '),
+          thumbnail: item.thumbnail || item.videoUrl,
+          videoUrl: item.videoUrl || item.thumbnail,
+          duration: item.duration || ''
         }));
 
         renderGrid(activeVideosList);
