@@ -1,12 +1,12 @@
 /**
  * app.js — Portfolio Videomaker — Nicolas Godoy
- * Renderização síncrona imediata com dados embutidos VIDEOS_DATA,
- * parser de URLs (YouTube, Instagram, Google Drive, MP4),
- * miniaturas dinâmicas, filtros e modal com transição film-burn.
+ * Renderização síncrona imediata com fallback VIDEOS_DATA,
+ * sincronização dinâmica com Cloudflare R2 / Worker,
+ * parser de URLs, miniaturas dinâmicas, filtros e modal com transição film-burn.
  */
 
 /* ============================================================
-   EMBEDDED DATA — Renderização síncrona sem depender de fetch
+   EMBEDDED DATA — Fallback inicial para carregamento instantâneo
    ============================================================ */
 
 const VIDEOS_DATA = [
@@ -209,7 +209,7 @@ function parseVideoUrl(url) {
   if (!url) return { type: 'unknown', src: '' };
   const u = String(url).trim();
 
-  /* YouTube watch  */
+  /* YouTube watch */
   const ytWatch = u.match(/(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
   if (ytWatch) return { type: 'youtube', id: ytWatch[1] };
 
@@ -217,7 +217,7 @@ function parseVideoUrl(url) {
   const ytShort = u.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/);
   if (ytShort) return { type: 'youtube', id: ytShort[1] };
 
-  /* YouTube embed  */
+  /* YouTube embed */
   const ytEmbed = u.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{11})/);
   if (ytEmbed) return { type: 'youtube', id: ytEmbed[1] };
 
@@ -236,7 +236,7 @@ function parseVideoUrl(url) {
   /* Arquivo de vídeo direto */
   if (/\.(mp4|webm|ogg)(\?|$)/i.test(u)) return { type: 'native', src: u };
 
-  /* Qualquer outro URL — tenta como iframe genérico */
+  /* Qualquer outro URL */
   return { type: 'iframe', src: u };
 }
 
@@ -266,7 +266,7 @@ function buildEmbedSrc(parsed, autoplay = false) {
 }
 
 /* ============================================================
-   THUMBNAIL — gera dinamicamente para YT ou usa fallback
+   THUMBNAIL
    ============================================================ */
 
 function getThumbnail(video) {
@@ -441,7 +441,7 @@ function initFilters(allVideos) {
       const filter = btn.dataset.filter;
       const filtered = filter === 'all'
         ? allVideos
-        : allVideos.filter((v) => v.category === filter);
+        : allVideos.filter((v) => (v.category || '').toLowerCase() === filter.toLowerCase());
 
       setTimeout(() => {
         renderGrid(filtered);
@@ -497,7 +497,6 @@ function loadVideo(video) {
     }
     if (clickShield) clickShield.style.display = 'block';
   } else if (parsed.type === 'gdrive' || parsed.type === 'native') {
-    // Player HTML5 Nativo limpo para Google Drive e arquivos .mp4/.webm (com áudio ativado)
     if (modalVideo) {
       const streamSrc = parsed.type === 'gdrive' ? getGDriveDirectUrl(parsed.id) : parsed.src;
       modalVideo.src = streamSrc;
@@ -508,7 +507,6 @@ function loadVideo(video) {
       modalVideo.playsInline = true;
       modalVideo.style.display = 'block';
       modalVideo.play().catch(() => {
-        // Fallback caso o navegador exija mute por política estrita
         modalVideo.muted = true;
         modalVideo.play().catch(() => {});
       });
@@ -527,7 +525,6 @@ function loadVideo(video) {
       `;
       modalIg.style.display = 'flex';
 
-      // Processa o embed usando a API oficial do Instagram
       if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === 'function') {
         window.instgrm.Embeds.process(modalIg);
       } else {
@@ -549,7 +546,7 @@ function openModal(video, playlist) {
 
   previouslyFocused = document.activeElement;
   currentPlaylist   = playlist || [video];
-  currentIndex      = currentPlaylist.findIndex(v => v.id === video.id);
+  currentIndex      = currentPlaylist.findIndex(v => String(v.id) === String(video.id));
   if (currentIndex < 0) currentIndex = 0;
 
   loadVideo(currentPlaylist[currentIndex]);
@@ -579,8 +576,6 @@ function navigateTo(direction) {
   const nextIndex = currentIndex + direction;
   if (nextIndex < 0 || nextIndex >= currentPlaylist.length) return;
 
-  // Direção 1 (avançar para baixo): sai pra cima (-100%), entra por baixo (100%)
-  // Direção -1 (voltar para cima): sai pra baixo (100%), entra por cima (-100%)
   const exitClass  = direction > 0 ? 'modal__reel--exit-up'   : 'modal__reel--exit-down';
   const enterClass = direction > 0 ? 'modal__reel--enter-up'  : 'modal__reel--enter-down';
 
@@ -675,7 +670,7 @@ function escHtml(str) {
 }
 
 /* ============================================================
-   INIT — Renderização imediata e síncrona
+   INIT — Renderização imediata e sincronização com Worker / R2
    ============================================================ */
 
 function setupIntroAnimation() {
@@ -693,7 +688,6 @@ function setupIntroAnimation() {
     startSplash();
   }
 
-  // O texto fica 100% visível. Aos 2.3s as faixas vermelha e branca passam POR CIMA do texto como uma mascara, cobrindo o texto e revelando o site no fundo.
   setTimeout(() => {
     splash.classList.add('splash-finish');
     document.body.classList.remove('loading-intro');
@@ -709,21 +703,33 @@ function initApp() {
   initFilters(VIDEOS_DATA);
   setupEventListeners();
 
-  // 2. Tenta atualizar via videos.json em segundo plano (se disponível)
-  fetch('./videos.json?v=1.0.3')
+  // 2. Sincroniza dinamicamente com o feed configurado na sua Cloudflare Worker
+  fetch('https://portfolio-api.nicolasfgodoy.workers.dev/api/portfolio-config')
     .then((res) => {
       if (res.ok) return res.json();
       throw new Error('Response not ok');
     })
     .then((data) => {
       if (Array.isArray(data) && data.length > 0) {
-        activeVideosList = data;
+        // Mapeia os dados do R2 para a estrutura esperada pelo layout
+        activeVideosList = data.map((item, index) => ({
+          id: item.slug || index + 1,
+          title: item.title,
+          category: item.category || 'Geral',
+          date: '',
+          location: item.location || 'São Paulo, BR',
+          description: (item.tags || []).join(', '),
+          thumbnail: `https://portfolio-api.nicolasfgodoy.workers.dev/media/projetos/${item.slug}/preview.mp4`,
+          videoUrl: `https://portfolio-api.nicolasfgodoy.workers.dev/media/projetos/${item.slug}/video.mp4`,
+          duration: ''
+        }));
+
         renderGrid(activeVideosList);
         initFilters(activeVideosList);
       }
     })
     .catch((_) => {
-      // Ignora erro silenciosamente, pois VIDEOS_DATA já foi exibido com sucesso
+      // Caso a API demore ou falhe, o fallback VIDEOS_DATA já está na tela
     });
 }
 
