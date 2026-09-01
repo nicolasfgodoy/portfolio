@@ -16,9 +16,9 @@ const VIDEOS_DATA = [
     "category": "Shows",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20ryu_1_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/ryutherunner/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/ryutherunner/video.mp4",
     "duration": ""
   },
   {
@@ -27,9 +27,9 @@ const VIDEOS_DATA = [
     "category": "Shows",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_6.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20dubatuq%2099_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/dubatuq-feat-99/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/dubatuq-feat-99/video.mp4",
     "duration": ""
   },
   {
@@ -38,9 +38,9 @@ const VIDEOS_DATA = [
     "category": "Corporativo",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_2.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20BURGER%20DIA%202.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/burguerexpo-dia-1/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/burguerexpo-dia-1/video.mp4",
     "duration": ""
   },
   {
@@ -49,9 +49,9 @@ const VIDEOS_DATA = [
     "category": "Corporativo",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_3.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20burger%20dia%201-2.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/burgerexpo-dia-2/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/burgerexpo-dia-2/video.mp4",
     "duration": ""
   },
   {
@@ -60,20 +60,20 @@ const VIDEOS_DATA = [
     "category": "Shows",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_1.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20beco%20supernova_prob4_1_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/supernova/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/supernova/video.mp4",
     "duration": ""
   },
   {
     "id": 6,
-    "title": "@Peers Band",
+    "title": "@Peers Band (01)",
     "category": "Casamentos",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_4.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20cerimonia.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/peers-band-01/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/peers-band-01/video.mp4",
     "duration": ""
   },
   {
@@ -82,20 +82,20 @@ const VIDEOS_DATA = [
     "category": "Shows",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_15.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20VULGO%20FK_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/vulgofk/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/vulgofk/video.mp4",
     "duration": ""
   },
   {
     "id": 8,
-    "title": "@Peers Band",
+    "title": "@Peers Band (02)",
     "category": "Casamentos",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_5.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20cerimonia1.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/peers-band-02/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/peers-band-02/video.mp4",
     "duration": ""
   },
   {
@@ -104,31 +104,31 @@ const VIDEOS_DATA = [
     "category": "Casamentos",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_7.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20dubatuq%20casamento_1_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/dubatuq/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/dubatuq/video.mp4",
     "duration": ""
   },
   {
     "id": 10,
-    "title": "@Finesse",
+    "title": "@Finesse (01)",
     "category": "Baladas",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_8.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20finesse_1_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/finesse-01/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/finesse-01/video.mp4",
     "duration": ""
   },
   {
     "id": 11,
-    "title": "@Finesse",
+    "title": "@Finesse (02)",
     "category": "Baladas",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_9.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20finesse_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/finesse-02/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/finesse-02/video.mp4",
     "duration": ""
   },
   {
@@ -137,9 +137,9 @@ const VIDEOS_DATA = [
     "category": "Baladas",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_10.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pagode%202_2.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/beco-do-espeto/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/beco-do-espeto/video.mp4",
     "duration": ""
   },
   {
@@ -148,9 +148,9 @@ const VIDEOS_DATA = [
     "category": "Corporativo",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_11.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pizza%20dia%201.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/expopizzaria-dia-1/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/expopizzaria-dia-1/video.mp4",
     "duration": ""
   },
   {
@@ -159,9 +159,9 @@ const VIDEOS_DATA = [
     "category": "Corporativo",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_12.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20pizza%20dia%202.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/expopizzaria-dia-2/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/expopizzaria-dia-2/video.mp4",
     "duration": ""
   },
   {
@@ -170,9 +170,9 @@ const VIDEOS_DATA = [
     "category": "Shows",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_13.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20quizomba.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/quizomba/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/quizomba/video.mp4",
     "duration": ""
   },
   {
@@ -181,9 +181,9 @@ const VIDEOS_DATA = [
     "category": "Shows",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_17.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/C%C3%B3pia%20de%20shopee_prob4.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/dubatuq-feat-shopee/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/dubatuq-feat-shopee/video.mp4",
     "duration": ""
   },
   {
@@ -192,9 +192,9 @@ const VIDEOS_DATA = [
     "category": "Corporativo",
     "date": "",
     "location": "São Paulo, BR",
-    "description": "",
-    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/miniaturas/videos_16.mp4",
-    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/v%C3%ADdeos/kim_2.mp4",
+    "description": "4K, Dynamic, Color Grading, S-Log",
+    "thumbnail": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/djkimcotrim/preview.mp4",
+    "videoUrl": "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev/projetos/djkimcotrim/video.mp4",
     "duration": ""
   }
 ];
@@ -294,8 +294,38 @@ function triggerModalWipe() {
 }
 
 /* ============================================================
-   RENDER — CARD (com tratamento de erros individual)
+   RENDER — CARD & LAZY LOADING VIA INTERSECTION OBSERVER
    ============================================================ */
+
+let gridCardObserver = null;
+
+function setupGridObserver() {
+  if (gridCardObserver) {
+    gridCardObserver.disconnect();
+  }
+
+  gridCardObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const card = entry.target;
+        const vEl = card.querySelector('video.card__thumb');
+        if (!vEl) return;
+
+        if (entry.isIntersecting) {
+          if (!vEl.src && vEl.dataset.src) {
+            vEl.src = vEl.dataset.src;
+          }
+          vEl.play().catch(() => {});
+        } else {
+          if (vEl.src) {
+            vEl.pause();
+          }
+        }
+      });
+    },
+    { rootMargin: '200px 0px', threshold: 0.05 }
+  );
+}
 
 function buildCard(video, playlist) {
   try {
@@ -306,10 +336,11 @@ function buildCard(video, playlist) {
     li.setAttribute('tabindex', '0');
     li.setAttribute('aria-label', `${video.title || 'Vídeo'} — ${video.category || ''}`);
 
-    const thumbSrc = video.thumbnail || video.videoUrl || '';
+    // Thumbnail é exclusivamente a miniatura (preview.mp4 ou imagem)
+    const thumbSrc = video.thumbnail || '';
 
     li.innerHTML = `
-      <video class="card__thumb" autoplay muted loop playsinline preload="metadata" width="100%" src="${escHtml(thumbSrc)}"></video>
+      <video class="card__thumb" data-src="${escHtml(thumbSrc)}" muted loop playsinline preload="none" width="100%"></video>
       <div class="card__overlay" aria-hidden="true">
         <div class="card__play">
           <div class="card__play-icon">
@@ -323,11 +354,6 @@ function buildCard(video, playlist) {
       </div>
       ${video.duration ? `<span class="card__duration" aria-hidden="true">${escHtml(video.duration)}</span>` : ''}
     `;
-
-    const vEl = li.querySelector('video');
-    if (vEl) {
-      vEl.play().catch(() => {});
-    }
 
     li.addEventListener('click', () => openModal(video, playlist));
     li.addEventListener('keydown', (e) => {
@@ -349,6 +375,7 @@ function renderGrid(videos) {
   if (!grid) return;
 
   grid.innerHTML = '';
+  setupGridObserver();
 
   if (!Array.isArray(videos) || videos.length === 0) {
     const p = document.createElement('p');
@@ -360,12 +387,14 @@ function renderGrid(videos) {
 
   const fragment = document.createDocumentFragment();
   let renderedCount = 0;
+  const createdCards = [];
 
   videos.forEach((v) => {
     try {
       const card = buildCard(v, videos);
       if (card) {
         fragment.appendChild(card);
+        createdCards.push(card);
         renderedCount++;
       }
     } catch (e) {
@@ -380,6 +409,9 @@ function renderGrid(videos) {
     grid.appendChild(p);
   } else {
     grid.appendChild(fragment);
+    if (gridCardObserver) {
+      createdCards.forEach((c) => gridCardObserver.observe(c));
+    }
   }
 
   const statEl = document.getElementById('stat-projects');
