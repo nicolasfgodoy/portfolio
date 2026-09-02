@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador de Portfólio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --card-bg: #141414;
+      --border: #262626;
+      --text: #f5f5f5;
+      --muted: #a3a3a3;
+      --accent: #eab308;
+      --accent-hover: #ca8a04;
+      --danger: #ef4444;
+      --chip-bg: #222;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 { font-size: 1.8rem; font-weight: 700; }
+    .btn {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      background: #262626;
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: #333; }
+    .btn-sm {
+      padding: 0.35rem 0.7rem;
+      font-size: 0.85rem;
+    }
+    .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 1rem 1.5rem;
+      background: #262626;
+      color: #fff;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 2000;
+    }
+    .grid { display: flex; flex-direction: column; gap: 1.5rem; }
+    .item-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.2rem;
+      display: grid;
+      grid-template-columns: 200px 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .media-container video {
+      width: 200px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #000;
+    }
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .field-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field-group label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    .field-group input {
+      background: #0a0a0a;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.55rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    .field-group input:focus { border-color: var(--accent); outline: none; }
+    .item-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      justify-content: start;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      background: #262626;
+      color: var(--accent);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.3rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--chip-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+    .chip:hover {
+      border-color: #555;
+      color: #fff;
+    }
+    .chip.active {
+      background: rgba(234, 179, 8, 0.15);
+      color: var(--accent);
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .add-tag-box {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+    .add-tag-box input {
+      flex: 1;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.85rem;
+    }
+    .section-title {
+      font-size: 0.7rem;
+      color: #666;
+      margin-top: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1500;
+    }
+    .modal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 700px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    }
+    .modal-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .manage-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .manage-group h3 {
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .chip-manage {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #1c1c1c;
+      border: 1px solid #333;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .chip-delete {
+      color: #ef4444;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0 0.2rem;
+      border-radius: 50%;
+      transition: color 0.15s;
+    }
+    .chip-delete:hover {
+      color: #ff6b6b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Painel de Gerenciamento do Portfólio</h1>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem;">Edite os metadados, tags, locais dos projetos e gerencie o banco central de tags.</p>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="openDbModal()">⚙ Banco de Tags & Locais</button>
+      <a href="/gerador" class="btn btn-secondary" style="text-decoration:none; display:inline-block; font-size:0.9rem;">Gerador de Orçamentos</a>
+      <button class="btn btn-secondary" onclick="loadProjects()">Recarregar</button>
+      <button class="btn" onclick="saveGlobalOrder()">Salvar Ordem Global</button>
+    </div>
+  </header>
+
+  <div id="toast"></div>
+  <div id="project-list" class="grid">Carregando projetos do R2...</div>
+
+  <!-- MODAL BANCO DE TAGS E LOCAIS -->
+  <div id="db-modal" class="modal-overlay" onclick="if(event.target===this) closeDbModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Banco de Dados de Tags & Locais</h2>
+        <button class="btn btn-secondary btn-sm" onclick="closeDbModal()">✕ Fechar</button>
+      </div>
+      <div class="modal-body">
+        <!-- BANCO DE TAGS -->
+        <div class="manage-group">
+          <h3>Tags Registradas</h3>
+          <p style="font-size: 0.8rem; color: var(--muted);">Adicione ou exclua tags do banco global. Tags excluídas deixam de ser sugeridas.</p>
+          <div class="add-tag-box">
+            <input type="text" id="new-global-tag-input" placeholder="Nova tag para o banco..." onkeydown="if(event.key==='Enter') addGlobalTagFromModal()">
+            <button class="btn btn-sm" onclick="addGlobalTagFromModal()">+ Adicionar Tag</button>
+          </div>
+          <div id="global-tags-chips" class="chip-container"></div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0;">
+
+        <!-- BANCO DE LOCAIS -->
+        <div class="manage-group">
+          <h3>Locais Registrados</h3>
+          <p style="font-size: 0.8rem; color: var(--muted);">Adicione ou exclua locais do banco global.</p>
+          <div class="add-tag-box">
+            <input type="text" id="new-global-loc-input" placeholder="Novo local para o banco..." onkeydown="if(event.key==='Enter') addGlobalLocFromModal()">
+            <button class="btn btn-sm" onclick="addGlobalLocFromModal()">+ Adicionar Local</button>
+          </div>
+          <div id="global-locs-chips" class="chip-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let projectsData = [];
+    let globalTags = [];
+    let globalLocations = [];
+
+    const DEFAULT_TAGS = ["Shows", "Trap", "Aftermovie", "Recap", "Noturno", "4K", "Dynamic", "Color Grading", "S-Log", "Corporativo", "Casamentos", "Baladas", "Pagode", "Bloco"];
+    const DEFAULT_LOCATIONS = ["São Paulo, BR", "Beco do Espeto", "Cervejaria Tarantino"];
+    const PRESET_CATEGORIES = ["Shows", "Corporativo", "Casamentos", "Baladas", "Geral"];
+
+    function showToast(msg, type) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.borderLeftColor = type === 'error' ? 'var(--danger)' : 'var(--accent)';
+      toast.style.display = 'block';
+      setTimeout(function() { toast.style.display = 'none'; }, 3000);
+    }
+
+    async function loadGlobalMetadata() {
+      try {
+        const res = await fetch('/api/global-metadata');
+        if (res.ok) {
+          const data = await res.json();
+          globalTags = Array.isArray(data.tags) ? data.tags : DEFAULT_TAGS;
+          globalLocations = Array.isArray(data.locations) ? data.locations : DEFAULT_LOCATIONS;
+        } else {
+          globalTags = DEFAULT_TAGS.slice();
+          globalLocations = DEFAULT_LOCATIONS.slice();
+        }
+      } catch (err) {
+        globalTags = DEFAULT_TAGS.slice();
+        globalLocations = DEFAULT_LOCATIONS.slice();
+      }
+    }
+
+    async function saveGlobalMetadata() {
+      try {
+        await fetch('/api/global-metadata', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tags: globalTags, locations: globalLocations })
+        });
+      } catch (err) {
+        console.error('Erro ao salvar metadados globais:', err);
+      }
+    }
+
+    async function loadProjects() {
+      const container = document.getElementById('project-list');
+      container.innerHTML = 'Carregando projetos do R2...';
+      try {
+        await loadGlobalMetadata();
+        const res = await fetch('/api/portfolio-config');
+        projectsData = await res.json();
+
+        // Extrai tags e locais existentes dos projetos caso não estejam no banco global
+        if (Array.isArray(projectsData)) {
+          projectsData.forEach(function(p) {
+            if (p.location && globalLocations.indexOf(p.location) === -1) {
+              globalLocations.push(p.location);
+            }
+            if (Array.isArray(p.tags)) {
+              p.tags.forEach(function(t) {
+                if (t && globalTags.indexOf(t) === -1) {
+                  globalTags.push(t);
+                }
+              });
+            }
+          });
+        }
+
+        renderProjects();
+      } catch (err) {
+        container.innerHTML = 'Erro ao carregar projetos: ' + err.message;
+        showToast('Erro ao carregar lista de projetos', 'error');
+      }
+    }
+
+    function esc(str) {
+      return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function renderProjects() {
+      const container = document.getElementById('project-list');
+      if (!projectsData || projectsData.length === 0) {
+        container.innerHTML = 'Nenhum projeto encontrado.';
+        return;
+      }
+
+      var html = '';
+      for (var idx = 0; idx < projectsData.length; idx++) {
+        var item = projectsData[idx];
+        var disUp = idx === 0 ? 'disabled' : '';
+        var disDown = idx === projectsData.length - 1 ? 'disabled' : '';
+        var itemTags = item.tags || [];
+
+        var catPills = '';
+        for (var c = 0; c < PRESET_CATEGORIES.length; c++) {
+          var cat = PRESET_CATEGORIES[c];
+          var isCatActive = item.category === cat ? 'active' : '';
+          catPills += '<span class="chip ' + isCatActive + '" data-idx="' + idx + '" data-val="' + esc(cat) + '" onclick="onCategoryClick(this)">' + esc(cat) + '</span>';
+        }
+
+        var locPills = '';
+        for (var l = 0; l < globalLocations.length; l++) {
+          var loc = globalLocations[l];
+          var isLocActive = item.location === loc ? 'active' : '';
+          locPills += '<span class="chip ' + isLocActive + '" data-idx="' + idx + '" data-val="' + esc(loc) + '" onclick="onLocationClick(this)">' + esc(loc) + '</span>';
+        }
+
+        var tagPills = '';
+        for (var t = 0; t < globalTags.length; t++) {
+          var tag = globalTags[t];
+          var isTagActive = itemTags.indexOf(tag) !== -1 ? 'active' : '';
+          tagPills += '<span class="chip ' + isTagActive + '" data-idx="' + idx + '" data-val="' + esc(tag) + '" onclick="onTagClick(this)">' + (isTagActive ? '✓ ' : '+ ') + esc(tag) + '</span>';
+        }
+
+        html += '<div class="item-card" data-index="' + idx + '">' +
+          '<div class="media-container">' +
+            '<video src="' + esc(item.thumbnail) + '" autoplay loop muted playsinline></video>' +
+            '<div style="margin-top: 0.5rem;"><span class="badge">@' + esc(item.slug) + '</span></div>' +
+          '</div>' +
+          '<div class="fields">' +
+            '<div class="field-row">' +
+              '<div class="field-group">' +
+                '<label>Título</label>' +
+                '<input type="text" id="title-' + idx + '" data-idx="' + idx + '" data-field="title" value="' + esc(item.title) + '" onchange="onInputChange(this)">' +
+              '</div>' +
+              '<div class="field-group">' +
+                '<label>Categoria</label>' +
+                '<input type="text" id="cat-' + idx + '" data-idx="' + idx + '" data-field="category" value="' + esc(item.category) + '" onchange="onInputChange(this)">' +
+                '<div class="chip-container">' + catPills + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="field-group">' +
+              '<label>Localização</label>' +
+              '<input type="text" id="loc-' + idx + '" data-idx="' + idx + '" data-field="location" value="' + esc(item.location) + '" onchange="onInputChange(this)">' +
+              '<div class="section-title">Selecionar Localização Registrada:</div>' +
+              '<div class="chip-container">' + locPills + '</div>' +
+              '<div class="add-tag-box">' +
+                '<input type="text" id="newloc-' + idx + '" placeholder="Adicionar novo local..." onkeydown="onNewLocationKeydown(event, ' + idx + ')">' +
+                '<button class="btn btn-secondary btn-sm" onclick="addCustomLocation(' + idx + ')">+ Local</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="field-group">' +
+              '<label>Tags do Projeto</label>' +
+              '<div class="chip-container">' + tagPills + '</div>' +
+              '<div class="add-tag-box">' +
+                '<input type="text" id="newtag-' + idx + '" placeholder="Adicionar nova tag personalizada..." onkeydown="onNewTagKeydown(event, ' + idx + ')">' +
+                '<button class="btn btn-secondary btn-sm" onclick="addCustomTag(' + idx + ')">+ Tag</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="item-actions">' +
+            '<button class="btn btn-secondary btn-sm" onclick="moveItem(' + idx + ', -1)" ' + disUp + '>▲ Subir</button>' +
+            '<button class="btn btn-secondary btn-sm" onclick="moveItem(' + idx + ', 1)" ' + disDown + '>▼ Descer</button>' +
+            '<button class="btn btn-sm" onclick="saveItemTags(' + idx + ')">Salvar no R2</button>' +
+          '</div>' +
+        '</div>';
+      }
+      container.innerHTML = html;
+    }
+
+    function onNewTagKeydown(e, idx) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addCustomTag(idx);
+      }
+    }
+
+    function onNewLocationKeydown(e, idx) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addCustomLocation(idx);
+      }
+    }
+
+    function onInputChange(el) {
+      const idx = parseInt(el.getAttribute('data-idx'));
+      const field = el.getAttribute('data-field');
+      projectsData[idx][field] = el.value;
+    }
+
+    function onCategoryClick(el) {
+      const idx = parseInt(el.getAttribute('data-idx'));
+      const val = el.getAttribute('data-val');
+      projectsData[idx].category = val;
+      renderProjects();
+    }
+
+    function onLocationClick(el) {
+      const idx = parseInt(el.getAttribute('data-idx'));
+      const val = el.getAttribute('data-val');
+      projectsData[idx].location = val;
+      renderProjects();
+    }
+
+    function onTagClick(el) {
+      const idx = parseInt(el.getAttribute('data-idx'));
+      const tag = el.getAttribute('data-val');
+      if (!projectsData[idx].tags) projectsData[idx].tags = [];
+      const pos = projectsData[idx].tags.indexOf(tag);
+      if (pos === -1) {
+        projectsData[idx].tags.push(tag);
+      } else {
+        projectsData[idx].tags.splice(pos, 1);
+      }
+      renderProjects();
+    }
+
+    function addCustomTag(idx) {
+      const input = document.getElementById('newtag-' + idx);
+      if (!input) return;
+      const val = input.value.trim();
+      if (val) {
+        if (globalTags.indexOf(val) === -1) {
+          globalTags.push(val);
+          saveGlobalMetadata();
+        }
+        if (!projectsData[idx].tags) projectsData[idx].tags = [];
+        if (projectsData[idx].tags.indexOf(val) === -1) {
+          projectsData[idx].tags.push(val);
+        }
+        input.value = '';
+        renderProjects();
+      }
+    }
+
+    function addCustomLocation(idx) {
+      const input = document.getElementById('newloc-' + idx);
+      if (!input) return;
+      const val = input.value.trim();
+      if (val) {
+        if (globalLocations.indexOf(val) === -1) {
+          globalLocations.push(val);
+          saveGlobalMetadata();
+        }
+        projectsData[idx].location = val;
+        input.value = '';
+        renderProjects();
+      }
+    }
+
+    function moveItem(idx, direction) {
+      const newIdx = idx + direction;
+      if (newIdx < 0 || newIdx >= projectsData.length) return;
+      const temp = projectsData[idx];
+      projectsData[idx] = projectsData[newIdx];
+      projectsData[newIdx] = temp;
+      renderProjects();
+    }
+
+    async function saveItemTags(idx) {
+      const item = projectsData[idx];
+      showToast('Salvando tags de @' + item.slug + '...');
+      try {
+        const res = await fetch('/api/save-tags', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            slug: item.slug,
+            title: item.title,
+            category: item.category,
+            location: item.location,
+            tags: item.tags
+          })
+        });
+        if (res.ok) {
+          showToast('Metadados de @' + item.slug + ' salvos no R2!');
+        } else {
+          showToast('Erro ao salvar no R2', 'error');
+        }
+      } catch (err) {
+        showToast('Erro: ' + err.message, 'error');
+      }
+    }
+
+    async function saveGlobalOrder() {
+      showToast('Salvando ordem global...');
+      try {
+        const res = await fetch('/api/portfolio-config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(projectsData)
+        });
+        if (res.ok) {
+          showToast('Ordem global salva com sucesso!');
+        } else {
+          showToast('Erro ao salvar ordem global', 'error');
+        }
+      } catch (err) {
+        showToast('Erro: ' + err.message, 'error');
+      }
+    }
+
+    /* BANCO DE TAGS E LOCAIS MODAL */
+    function openDbModal() {
+      renderDbModalContent();
+      document.getElementById('db-modal').style.display = 'flex';
+    }
+
+    function closeDbModal() {
+      document.getElementById('db-modal').style.display = 'none';
+      renderProjects();
+    }
+
+    function renderDbModalContent() {
+      const tagsContainer = document.getElementById('global-tags-chips');
+      const locsContainer = document.getElementById('global-locs-chips');
+
+      var tagsHtml = '';
+      globalTags.forEach(function(tag) {
+        var safeTag = esc(tag).replace(/'/g, "\'");
+        tagsHtml += '<span class="chip-manage">' + esc(tag) + ' <span class="chip-delete" onclick="deleteGlobalTag(\'' + safeTag + '\')">×</span></span>';
+      });
+      tagsContainer.innerHTML = tagsHtml || '<p style="color:var(--muted); font-size:0.85rem;">Nenhuma tag no banco.</p>';
+
+      var locsHtml = '';
+      globalLocations.forEach(function(loc) {
+        var safeLoc = esc(loc).replace(/'/g, "\'");
+        locsHtml += '<span class="chip-manage">' + esc(loc) + ' <span class="chip-delete" onclick="deleteGlobalLocation(\'' + safeLoc + '\')">×</span></span>';
+      });
+      locsContainer.innerHTML = locsHtml || '<p style="color:var(--muted); font-size:0.85rem;">Nenhum local no banco.</p>';
+    }
+
+    function addGlobalTagFromModal() {
+      const input = document.getElementById('new-global-tag-input');
+      const val = input.value.trim();
+      if (val) {
+        if (globalTags.indexOf(val) === -1) {
+          globalTags.push(val);
+          saveGlobalMetadata();
+          renderDbModalContent();
+          showToast('Tag "' + val + '" adicionada ao Banco!');
+        }
+        input.value = '';
+      }
+    }
+
+    function addGlobalLocFromModal() {
+      const input = document.getElementById('new-global-loc-input');
+      const val = input.value.trim();
+      if (val) {
+        if (globalLocations.indexOf(val) === -1) {
+          globalLocations.push(val);
+          saveGlobalMetadata();
+          renderDbModalContent();
+          showToast('Local "' + val + '" adicionado ao Banco!');
+        }
+        input.value = '';
+      }
+    }
+
+    function deleteGlobalTag(tag) {
+      if (confirm('Deseja excluir a tag "' + tag + '" do Banco Global?')) {
+        const idx = globalTags.indexOf(tag);
+        if (idx !== -1) {
+          globalTags.splice(idx, 1);
+          // Remove a tag de todos os projetos carregados
+          projectsData.forEach(function(p) {
+            if (Array.isArray(p.tags)) {
+              const pIdx = p.tags.indexOf(tag);
+              if (pIdx !== -1) p.tags.splice(pIdx, 1);
+            }
+          });
+          saveGlobalMetadata();
+          renderDbModalContent();
+          showToast('Tag "' + tag + '" excluída!');
+        }
+      }
+    }
+
+    function deleteGlobalLocation(loc) {
+      if (confirm('Deseja excluir o local "' + loc + '" do Banco Global?')) {
+        const idx = globalLocations.indexOf(loc);
+        if (idx !== -1) {
+          globalLocations.splice(idx, 1);
+          saveGlobalMetadata();
+          renderDbModalContent();
+          showToast('Local "' + loc + '" excluído!');
+        }
+      }
+    }
+
+    loadProjects();
+  </script>
+</body>
+</html>

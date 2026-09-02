@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Gerador de Orçamentos | Nicolas Godoy</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #171717;
+      --card-border: #262626;
+      --accent: #FF0000;
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --input-bg: #09090b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 2.5rem 1rem 7rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 950px;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    h1 {
+      font-family: 'League Gothic', sans-serif;
+      font-size: 3rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .brand-tag {
+      color: var(--accent);
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 0.4rem;
+    }
+
+    .status-badge {
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      background: #1c1c1e;
+      border: 1px solid var(--card-border);
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .status-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'League Gothic', sans-serif;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 1.2fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.8rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input, select, textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 0.75rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 85px;
+      line-height: 1.4;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .bonus-input {
+      border-color: #382525;
+      background: #120b0b;
+    }
+
+    .bonus-input:focus {
+      border-color: var(--accent);
+    }
+
+    /* Repetidor de Vídeos */
+    .video-repeater-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .video-dur-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .video-dur-row input {
+      flex: 1;
+    }
+
+    .btn-remove-dur {
+      background: #27272a;
+      border: 1px solid #3f3f46;
+      color: #ef4444;
+      font-size: 1.1rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .btn-add-dur {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #202022;
+      border: 1px dashed #3f3f46;
+      color: #a1a1aa;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      align-self: flex-start;
+      margin-bottom: 0.8rem;
+      transition: all 0.2s;
+    }
+
+    .btn-add-dur:hover {
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Seletor Visual com Checkboxes */
+    .video-picker-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .selected-badge {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .video-picker-grid {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding: 0.5rem 0.2rem 0.8rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--card-border) transparent;
+      min-height: 140px;
+      align-items: center;
+    }
+
+    .video-picker-grid::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .video-picker-grid::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 4px;
+    }
+
+    .video-option {
+      flex: 0 0 95px;
+      height: 140px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      position: relative;
+      background: #000;
+      transition: all 0.2s ease;
+      opacity: 0.6;
+    }
+
+    .video-option:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .video-option.active {
+      border-color: var(--accent);
+      opacity: 1;
+      box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+    }
+
+    .video-checkbox {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .video-option video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .video-option-name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.85);
+      font-size: 0.65rem;
+      text-align: center;
+      padding: 3px 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #fff;
+    }
+
+    /* Barra de Ações */
+    .actions-bar {
+      position: sticky;
+      bottom: 1.5rem;
+      background: rgba(23, 23, 23, 0.95);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      padding: 1rem 1.5rem;
+      border-radius: 14px;
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      justify-content: flex-end;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      margin-top: 2rem;
+      z-index: 100;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font-family: 'League Gothic', sans-serif;
+      font-size: 1.35rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.65rem 1.2rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-secondary {
+      background: #27272a;
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background: #3f3f46;
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #e60000;
+      transform: translateY(-2px);
+    }
+
+    .pdf-dropdown-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      right: 0;
+      background: #1c1c1e;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      min-width: 250px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      overflow: hidden;
+      z-index: 200;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 0.8rem 1rem;
+      color: #f4f4f5;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: background 0.15s ease;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-item span.item-title {
+      font-family: 'League Gothic', sans-serif;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+
+    .dropdown-item span.item-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .dropdown-item:hover {
+      background: #27272a;
+    }
+
+    .dropdown-item:hover span.item-title {
+      color: var(--accent);
+    }
+
+    .loading-spinner {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 1rem;
+    }
+
+    /* Barra de Filtro de Tags */
+    .tag-filter-bar {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding: 0.4rem 0.1rem;
+      margin-bottom: 0.4rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--card-border) transparent;
+    }
+
+    .tag-filter-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .tag-filter-bar::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 4px;
+    }
+
+    .tag-filter-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      background: #18181b;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .tag-filter-pill:hover {
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .tag-filter-pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(234, 179, 8, 0.25);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-4 {
+        grid-template-columns: 1fr;
+      }
+      .actions-bar {
+        flex-direction: column;
+      }
+      button, .pdf-dropdown-container {
+        width: 100%;
+      }
+      .dropdown-menu {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div>
+        <h1>Gerador de Orçamentos <span class="brand-tag">@nicolasfgodoy</span></h1>
+        <p class="subtitle">Selecione vídeos do R2 e preencha os dados para gerar a proposta comercial do cliente.</p>
+      </div>
+      <div class="status-badge" id="r2-status">
+        <span class="dot"></span> <span id="r2-status-text">Conectado ao Cloudflare R2</span>
+      </div>
+    </header>
+
+    <form id="quote-form" onsubmit="event.preventDefault();">
+      
+      <!-- 1. DADOS GERAIS -->
+      <div class="section-card">
+        <h2 class="section-title">1. Dados do Cliente & Contato</h2>
+        <div class="grid-4" style="grid-template-columns: 1fr 0.8fr 1.2fr 1fr 1fr;">
+          <div class="form-group">
+            <label>Nome do Cliente</label>
+            <input type="text" id="client_name" value="Paola" required placeholder="Ex: Paola ou Júlio">
+          </div>
+          <div class="form-group">
+            <label>Gênero</label>
+            <select id="client_gender">
+              <option value="f" selected>Feminino (a)</option>
+              <option value="m">Masculino (o)</option>
+              <option value="n">Neutro (sem artigo)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Projeto / Complemento</label>
+            <input type="text" id="project_name" value="do seu show" placeholder="Ex: da Matrioska ou do seu show">
+          </div>
+          <div class="form-group">
+            <label>Seu WhatsApp</label>
+            <input type="text" id="whatsapp_number" value="5511932268093" required>
+          </div>
+          <div class="form-group">
+            <label style="color: var(--accent);">Identificador / Slug da Proposta (Opcional)</label>
+            <input type="text" id="quote_slug" value="" placeholder="Ex: show-matrioska, orcamento1 (vazio gera ID automático)">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. PACOTE PREMIUM -->
+      <div class="section-card" style="border-left: 4px solid var(--accent);">
+        <h2 class="section-title"><span style="color: var(--accent);">★</span> Pacote Premium</h2>
+        
+        <div class="form-group">
+          <label>Header 2 (Entregas / Formato)</label>
+          <input type="text" id="p_header2" value="Fotógrafo + Videomaker + Entrega Real Time">
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Média de Fotos (0 para desativar)</label>
+            <input type="text" id="p_photos" value="600">
+          </div>
+          <div class="form-group">
+            <label>Preço (R$)</label>
+            <input type="text" id="p_price" value="R$ 5.500">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Durações dos Vídeos Entregues</label>
+          <div class="video-repeater-container" id="p_durations_container">
+            <div class="video-dur-row">
+              <input type="text" class="p-dur-input" value="2:00" placeholder="Ex: 2:00">
+              <button type="button" class="btn-remove-dur" onclick="removeDurRow(this)">✕</button>
+            </div>
+          </div>
+          <button type="button" class="btn-add-dur" onclick="addDurRow('p_durations_container', 'p-dur-input')">+ Adicionar Outro Vídeo</button>
+        </div>
+
+        <div class="form-group">
+          <div class="video-picker-label">
+            <label>Escolha até 3 Vídeos do R2 (Exemplos)</label>
+            <span class="selected-badge" id="p_selected_badge">Carregando...</span>
+          </div>
+          <div class="tag-filter-bar" id="tag-filter-premium"></div>
+          <div class="video-picker-grid" id="picker-premium">
+            <div class="loading-spinner">Buscando vídeos no R2...</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Detalhes da Entrega / Descrição do Job</label>
+          <textarea id="p_delivery" rows="2">durante 3 blocos do evento, dependendo da sua necessidade, vamos entregar 10 vídeos de 15 segundos.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label style="color: #ef4444;">★ Bônus / Extras (Opcional)</label>
+          <input type="text" id="p_bonus" class="bonus-input" value="Entrega de todas as fotos tratadas em até 24h + 2 reels extras." placeholder="Ex: Entrega em 24h, drone incluso, etc.">
+        </div>
+      </div>
+
+      <!-- 3. PACOTE BASE -->
+      <div class="section-card">
+        <h2 class="section-title">Pacote Base</h2>
+        
+        <div class="form-group">
+          <label>Header 2 (Entregas / Formato)</label>
+          <input type="text" id="b_header2" value="Fotógrafo + Videomaker">
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Média de Fotos (0 para desativar)</label>
+            <input type="text" id="b_photos" value="250">
+          </div>
+          <div class="form-group">
+            <label>Preço (R$)</label>
+            <input type="text" id="b_price" value="R$ 3.000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Durações dos Vídeos Entregues</label>
+          <div class="video-repeater-container" id="b_durations_container">
+            <div class="video-dur-row">
+              <input type="text" class="b-dur-input" value="1:30" placeholder="Ex: 1:30">
+              <button type="button" class="btn-remove-dur" onclick="removeDurRow(this)">✕</button>
+            </div>
+          </div>
+          <button type="button" class="btn-add-dur" onclick="addDurRow('b_durations_container', 'b-dur-input')">+ Adicionar Outro Vídeo</button>
+        </div>
+
+        <div class="form-group">
+          <div class="video-picker-label">
+            <label>Escolha até 3 Vídeos do R2 (Exemplos)</label>
+            <span class="selected-badge" id="b_selected_badge">Carregando...</span>
+          </div>
+          <div class="tag-filter-bar" id="tag-filter-base"></div>
+          <div class="video-picker-grid" id="picker-base">
+            <div class="loading-spinner">Buscando vídeos no R2...</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Detalhes da Entrega / Prazo</label>
+          <textarea id="b_delivery" rows="2">em até 3 dias.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label style="color: #ef4444;">★ Bônus / Extras (Opcional)</label>
+          <input type="text" id="b_bonus" class="bonus-input" value="" placeholder="Ex: Teaser de 15s para stories de brinde.">
+        </div>
+      </div>
+
+      <!-- 4. PACOTE BUDGET -->
+      <div class="section-card">
+        <h2 class="section-title">Pacote Budget</h2>
+        
+        <div class="form-group">
+          <label>Header 2 (Entregas / Formato)</label>
+          <input type="text" id="bu_header2" value="Videomaker">
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Preço (R$)</label>
+            <input type="text" id="bu_price" value="R$ 1.800">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Durações dos Vídeos Entregues</label>
+          <div class="video-repeater-container" id="bu_durations_container">
+            <div class="video-dur-row">
+              <input type="text" class="bu-dur-input" value="1:30" placeholder="Ex: 1:30">
+              <button type="button" class="btn-remove-dur" onclick="removeDurRow(this)">✕</button>
+            </div>
+          </div>
+          <button type="button" class="btn-add-dur" onclick="addDurRow('bu_durations_container', 'bu-dur-input')">+ Adicionar Outro Vídeo</button>
+        </div>
+
+        <div class="form-group">
+          <div class="video-picker-label">
+            <label>Escolha até 3 Vídeos do R2 (Exemplos)</label>
+            <span class="selected-badge" id="bu_selected_badge">Carregando...</span>
+          </div>
+          <div class="tag-filter-bar" id="tag-filter-budget"></div>
+          <div class="video-picker-grid" id="picker-budget">
+            <div class="loading-spinner">Buscando vídeos no R2...</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Detalhes da Entrega / Prazo</label>
+          <textarea id="bu_delivery" rows="2">em até 7 dias.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label style="color: #ef4444;">★ Bônus / Extras (Opcional)</label>
+          <input type="text" id="bu_bonus" class="bonus-input" value="" placeholder="Ex: Corte rápido no mesmo dia.">
+        </div>
+      </div>
+
+      <!-- BARRA DE AÇÕES -->
+      <div class="actions-bar">
+        <button type="button" class="btn-secondary" onclick="openPreview()">Visualizar Site</button>
+        <button type="button" class="btn-secondary" onclick="saveQuoteAndCopyLink()">Salvar &amp; Gerar Link</button>
+        <button type="button" class="btn-primary" onclick="copyShareLink()">Copiar Link Direto</button>
+
+        <div class="pdf-dropdown-container">
+          <button type="button" class="btn-secondary" style="border: 1px solid var(--accent); color: var(--accent);" onclick="togglePdfMenu(event)">
+            Exportar PDF ▾
+          </button>
+          <div class="dropdown-menu" id="pdf-dropdown">
+            <div class="dropdown-item" onclick="exportPdf('adaptador')">
+              <span class="item-title">PDF Mobile Adaptador</span>
+              <span class="item-desc">Deitado (Panorâmico 16:9 Lado a Lado)</span>
+            </div>
+            <div class="dropdown-item" onclick="exportPdf('desktop')">
+              <span class="item-title">PDF Desktop</span>
+              <span class="item-desc">Deitado (Landscape Página a Página)</span>
+            </div>
+            <div class="dropdown-item" onclick="exportPdf('mobile')">
+              <span class="item-title">PDF Mobile</span>
+              <span class="item-desc">Vertical (Stories / Celular)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    const API_WORKER = "https://portfolio-api.nicolasfgodoy.workers.dev";
+    const R2_PUBLIC_BASE = "https://pub-1dce3e5b589446cb9be315800a068e05.r2.dev";
+    
+    let r2Projects = [];
+
+    const FALLBACK_PROJECTS = [
+      { slug: "ryutherunner", title: "@RyuTheRunner", category: "Shows", tags: ["Shows", "Reels"], thumbnail: `${R2_PUBLIC_BASE}/projetos/ryutherunner/preview.mp4` },
+      { slug: "dubatuq-feat-99", title: "@Dubatuq feat @99", category: "Shows", tags: ["Shows", "Clipes"], thumbnail: `${R2_PUBLIC_BASE}/projetos/dubatuq-feat-99/preview.mp4` },
+      { slug: "burguerexpo-dia-1", title: "@BurguerExpo Dia 1", category: "Corporativo", tags: ["Corporativo", "Institucional", "Eventos"], thumbnail: `${R2_PUBLIC_BASE}/projetos/burguerexpo-dia-1/preview.mp4` },
+      { slug: "burgerexpo-dia-2", title: "@BurgerExpo Dia 2", category: "Corporativo", tags: ["Corporativo", "Institucional", "Eventos"], thumbnail: `${R2_PUBLIC_BASE}/projetos/burgerexpo-dia-2/preview.mp4` },
+      { slug: "supernova", title: "@Supernova", category: "Shows", tags: ["Shows", "Reels"], thumbnail: `${R2_PUBLIC_BASE}/projetos/supernova/preview.mp4` },
+      { slug: "peers-band-01", title: "@Peers Band (01)", category: "Casamentos", tags: ["Casamentos", "Eventos"], thumbnail: `${R2_PUBLIC_BASE}/projetos/peers-band-01/preview.mp4` },
+      { slug: "vulgofk", title: "@VulgoFK", category: "Shows", tags: ["Shows", "Clipes"], thumbnail: `${R2_PUBLIC_BASE}/projetos/vulgofk/preview.mp4` },
+      { slug: "peers-band-02", title: "@Peers Band (02)", category: "Casamentos", tags: ["Casamentos", "Eventos"], thumbnail: `${R2_PUBLIC_BASE}/projetos/peers-band-02/preview.mp4` },
+      { slug: "dubatuq", title: "@Dubatuq", category: "Casamentos", tags: ["Casamentos"], thumbnail: `${R2_PUBLIC_BASE}/projetos/dubatuq/preview.mp4` },
+      { slug: "finesse-01", title: "@Finesse (01)", category: "Baladas", tags: ["Baladas", "Reels"], thumbnail: `${R2_PUBLIC_BASE}/projetos/finesse-01/preview.mp4` },
+      { slug: "finesse-02", title: "@Finesse (02)", category: "Baladas", tags: ["Baladas", "Reels"], thumbnail: `${R2_PUBLIC_BASE}/projetos/finesse-02/preview.mp4` },
+      { slug: "beco-do-espeto", title: "@BecoDoEspeto", category: "Baladas", tags: ["Baladas"], thumbnail: `${R2_PUBLIC_BASE}/projetos/beco-do-espeto/preview.mp4` },
+      { slug: "expopizzaria-dia-1", title: "@ExpoPizzaria Dia 1", category: "Corporativo", tags: ["Corporativo", "Institucional", "Eventos"], thumbnail: `${R2_PUBLIC_BASE}/projetos/expopizzaria-dia-1/preview.mp4` },
+      { slug: "expopizzaria-dia-2", title: "@ExpoPizzaria Dia 2", category: "Corporativo", tags: ["Corporativo", "Institucional", "Eventos"], thumbnail: `${R2_PUBLIC_BASE}/projetos/expopizzaria-dia-2/preview.mp4` },
+      { slug: "quizomba", title: "@Quizomba", category: "Shows", tags: ["Shows"], thumbnail: `${R2_PUBLIC_BASE}/projetos/quizomba/preview.mp4` },
+      { slug: "dubatuq-feat-shopee", title: "@Dubatuq feat @Shopee", category: "Shows", tags: ["Shows", "Clipes"], thumbnail: `${R2_PUBLIC_BASE}/projetos/dubatuq-feat-shopee/preview.mp4` },
+      { slug: "djkimcotrim", title: "@DjKimCotrim", category: "Corporativo", tags: ["Corporativo", "Reels"], thumbnail: `${R2_PUBLIC_BASE}/projetos/djkimcotrim/preview.mp4` }
+    ];
+
+    async function loadR2Library() {
+      const statusText = document.getElementById('r2-status-text');
+      try {
+        let res = await fetch('/api/portfolio-config');
+        if (!res.ok) {
+          res = await fetch(`${API_WORKER}/api/portfolio-config`);
+        }
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            r2Projects = data;
+            if (statusText) statusText.innerText = `R2 Conectado (${data.length} vídeos)`;
+          } else {
+            r2Projects = FALLBACK_PROJECTS;
+          }
+        } else {
+          r2Projects = FALLBACK_PROJECTS;
+        }
+      } catch (e) {
+        console.warn('Usando lista fallback de projetos R2:', e);
+        r2Projects = FALLBACK_PROJECTS;
+        if (statusText) statusText.innerText = 'R2 Offline (Modo Local)';
+      }
+
+      try {
+        let qRes = await fetch('/api/list-quotes');
+        if (!qRes.ok) qRes = await fetch(`${API_WORKER}/api/list-quotes`);
+        if (qRes.ok) {
+          const qData = await qRes.json();
+          if (qData.nextId) {
+            const slugElem = document.getElementById('quote_slug');
+            if (slugElem) slugElem.value = qData.nextId;
+          }
+        }
+      } catch(e){}
+
+      renderTagFilters();
+      initPickers();
+    }
+
+    function renderTagFilters() {
+      const allTags = new Set();
+      r2Projects.forEach(p => {
+        if (p.category) allTags.add(p.category);
+        if (Array.isArray(p.tags)) {
+          p.tags.forEach(t => allTags.add(t));
+        }
+      });
+      const tagList = ['Todos', ...Array.from(allTags)];
+      
+      const setupFilterBar = (filterBarId, pickerGridId) => {
+        const bar = document.getElementById(filterBarId);
+        if (!bar) return;
+        bar.innerHTML = '';
+        tagList.forEach((tag, idx) => {
+          const pill = document.createElement('span');
+          pill.className = `tag-filter-pill ${idx === 0 ? 'active' : ''}`;
+          pill.innerText = tag;
+          pill.addEventListener('click', () => {
+            bar.querySelectorAll('.tag-filter-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            filterPickerByTag(pickerGridId, tag);
+          });
+          bar.appendChild(pill);
+        });
+      };
+
+      setupFilterBar('tag-filter-premium', 'picker-premium');
+      setupFilterBar('tag-filter-base', 'picker-base');
+      setupFilterBar('tag-filter-budget', 'picker-budget');
+    }
+
+    function filterPickerByTag(pickerGridId, tag) {
+      const grid = document.getElementById(pickerGridId);
+      if (!grid) return;
+      const options = grid.querySelectorAll('.video-option');
+      options.forEach(opt => {
+        if (tag === 'Todas' || tag === 'Todos') {
+          opt.style.display = 'block';
+        } else {
+          const tagsAttr = opt.getAttribute('data-tags') || '';
+          const optTags = tagsAttr.split(',').map(t => t.trim().toLowerCase());
+          if (optTags.includes(tag.toLowerCase())) {
+            opt.style.display = 'block';
+          } else {
+            opt.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    function addDurRow(containerId, inputClass) {
+      const container = document.getElementById(containerId);
+      const row = document.createElement('div');
+      row.className = 'video-dur-row';
+      row.innerHTML = `
+        <input type="text" class="${inputClass}" value="1:00" placeholder="Ex: 1:00">
+        <button type="button" class="btn-remove-dur" onclick="removeDurRow(this)">✕</button>
+      `;
+      container.appendChild(row);
+    }
+
+    function removeDurRow(btn) {
+      const container = btn.closest('.video-repeater-container');
+      if (container.querySelectorAll('.video-dur-row').length > 1) {
+        btn.parentElement.remove();
+      } else {
+        btn.previousElementSibling.value = '';
+      }
+    }
+
+    function createMultiPicker(containerId, badgeId, defaultSlugs) {
+      const container = document.getElementById(containerId);
+      const badge = document.getElementById(badgeId);
+      container.innerHTML = '';
+
+      r2Projects.forEach(item => {
+        const isChecked = defaultSlugs.includes(item.slug);
+        const option = document.createElement('div');
+        option.className = `video-option ${isChecked ? 'active' : ''}`;
+        option.setAttribute('data-slug', item.slug);
+        option.setAttribute('data-title', item.title || item.slug);
+        const tagsArr = [];
+        if (item.category) tagsArr.push(item.category);
+        if (Array.isArray(item.tags)) tagsArr.push(...item.tags);
+        option.setAttribute('data-tags', tagsArr.join(','));
+        
+        const thumbUrl = resolveThumbnail(item.thumbnail || item.slug);
+        
+        option.innerHTML = `
+          <input type="checkbox" class="video-checkbox" ${isChecked ? 'checked' : ''}>
+          <video src="${thumbUrl}#t=0.5" preload="metadata" muted loop playsinline onmouseover="this.play()" onmouseout="this.pause()"></video>
+          <div class="video-option-name">${item.title || item.slug}</div>
+        `;
+
+        const chk = option.querySelector('.video-checkbox');
+
+        const updateState = () => {
+          const checkedBoxes = container.querySelectorAll('.video-checkbox:checked');
+          if (chk.checked && checkedBoxes.length > 3) {
+            chk.checked = false;
+            alert('Você pode selecionar no máximo 3 miniaturas por pacote.');
+            return;
+          }
+          if (chk.checked) {
+            option.classList.add('active');
+          } else {
+            option.classList.remove('active');
+          }
+          
+          const selectedTitles = Array.from(container.querySelectorAll('.video-checkbox:checked'))
+            .map(c => c.closest('.video-option').getAttribute('data-title'));
+          badge.innerText = selectedTitles.length > 0 ? selectedTitles.join(', ') : 'Nenhum vídeo';
+        };
+
+        chk.addEventListener('change', updateState);
+        option.addEventListener('click', (e) => {
+          if (e.target !== chk) {
+            chk.checked = !chk.checked;
+            updateState();
+          }
+        });
+
+        container.appendChild(option);
+      });
+
+      const initialSelected = Array.from(container.querySelectorAll('.video-checkbox:checked'))
+        .map(c => c.closest('.video-option').getAttribute('data-title'));
+      badge.innerText = initialSelected.length > 0 ? initialSelected.join(', ') : 'Nenhum vídeo';
+    }
+
+    function initPickers() {
+      createMultiPicker('picker-premium', 'p_selected_badge', ['ryutherunner']);
+      createMultiPicker('picker-base', 'b_selected_badge', ['dubatuq-feat-99']);
+      createMultiPicker('picker-budget', 'bu_selected_badge', ['supernova']);
+    }
+
+    function getSelectedVideos(containerId) {
+      return Array.from(document.querySelectorAll(`#${containerId} .video-checkbox:checked`))
+        .map(c => c.closest('.video-option').getAttribute('data-slug'))
+        .join(',');
+    }
+
+    function getDurations(inputClass) {
+      return Array.from(document.querySelectorAll(`.${inputClass}`))
+        .map(i => i.value.trim())
+        .filter(v => v !== '')
+        .join(',');
+    }
+
+    function getQuoteSlug() {
+      const slugElem = document.getElementById('quote_slug');
+      let val = slugElem ? slugElem.value.trim() : '';
+      if (!val) {
+        val = 'orc-' + Math.random().toString(36).substring(2, 8);
+        if (slugElem) slugElem.value = val;
+      }
+      return val.toLowerCase().replace(/[^a-z0-9_-]/g, '') || ('orc-' + Date.now().toString(36));
+    }
+
+    function getFormData() {
+      return {
+        slug: getQuoteSlug(),
+        client: document.getElementById('client_name').value,
+        gender: document.getElementById('client_gender').value,
+        project: document.getElementById('project_name').value,
+        wa: document.getElementById('whatsapp_number').value,
+        // Premium
+        p_h2: document.getElementById('p_header2').value,
+        p_photos: document.getElementById('p_photos').value,
+        p_dur: getDurations('p-dur-input'),
+        p_del: document.getElementById('p_delivery').value,
+        p_bonus: document.getElementById('p_bonus').value,
+        p_price: document.getElementById('p_price').value,
+        p_video: getSelectedVideos('picker-premium') || 'ryutherunner',
+        // Base
+        b_h2: document.getElementById('b_header2').value,
+        b_photos: document.getElementById('b_photos').value,
+        b_dur: getDurations('b-dur-input'),
+        b_del: document.getElementById('b_delivery').value,
+        b_bonus: document.getElementById('b_bonus').value,
+        b_price: document.getElementById('b_price').value,
+        b_video: getSelectedVideos('picker-base') || 'dubatuq-feat-99',
+        // Budget
+        bu_h2: document.getElementById('bu_header2').value,
+        bu_dur: getDurations('bu-dur-input'),
+        bu_del: document.getElementById('bu_delivery').value,
+        bu_bonus: document.getElementById('bu_bonus').value,
+        bu_price: document.getElementById('bu_price').value,
+        bu_video: getSelectedVideos('picker-budget') || 'supernova'
+      };
+    }
+
+    function buildQueryParams(data) {
+      const p = new URLSearchParams();
+      Object.keys(data).forEach(k => {
+        if (data[k] !== undefined && data[k] !== null && data[k] !== '') {
+          p.set(k, data[k]);
+        }
+      });
+      return p.toString();
+    }
+
+    function buildUrl(slug, data) {
+      const queryString = data ? buildQueryParams(data) : '';
+      const baseUrl = `${API_WORKER}/orcamento/${slug}`;
+      return queryString ? `${baseUrl}?${queryString}` : baseUrl;
+    }
+
+    async function openPreview() {
+      const data = getFormData();
+      const slug = data.slug;
+      const targetUrl = buildUrl(slug, data);
+      try {
+        const res = await fetch(`${API_WORKER}/api/save-quote`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, data })
+        });
+        if (res.ok) {
+          const result = await res.json();
+          window.open(result.url || targetUrl, '_blank');
+          return;
+        }
+      } catch (e) {
+        console.warn('Erro ao salvar orcamento antes do preview:', e);
+      }
+      window.open(targetUrl, '_blank');
+    }
+
+    async function copyShareLink() {
+      const data = getFormData();
+      const slug = data.slug;
+      const targetUrl = buildUrl(slug, data);
+      try {
+        const res = await fetch(`${API_WORKER}/api/save-quote`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, data })
+        });
+        if (res.ok) {
+          const result = await res.json();
+          const finalUrl = result.url || targetUrl;
+          navigator.clipboard.writeText(finalUrl).then(() => {
+            alert(`Link da subpágina /orcamento/${slug} copiado com sucesso!\n\nURL: ${finalUrl}`);
+          });
+          return;
+        }
+      } catch(e){}
+
+      navigator.clipboard.writeText(targetUrl).then(() => {
+        alert(`Link da subpágina /orcamento/${slug} copiado com sucesso!\n\nURL: ${targetUrl}`);
+      });
+    }
+
+    async function saveQuoteAndCopyLink() {
+      await copyShareLink();
+    }
+
+    function togglePdfMenu(event) {
+      event.stopPropagation();
+      document.getElementById('pdf-dropdown').classList.toggle('show');
+    }
+
+    window.addEventListener('click', () => {
+      document.getElementById('pdf-dropdown').classList.remove('show');
+    });
+
+    function formatText({ photos, dur, del }) {
+      const hasPhotos = photos && photos !== '0' && photos.trim() !== '';
+      const durList = (dur || '').split(',').map(d => d.trim()).filter(d => d !== '');
+      const deliveryText = del && del.trim() !== '' ? `, ${del.trim()}` : '.';
+
+      let videoPart = '';
+      if (durList.length === 1) {
+        videoPart = `um vídeo de <span style="color:#FF0000">${durList[0]}</span> minutos`;
+      } else if (durList.length > 1) {
+        const last = durList.pop();
+        const formatted = durList.map(d => `um vídeo de <span style="color:#FF0000">${d}</span> minutos`).join(', ');
+        videoPart = `${formatted} e um vídeo de <span style="color:#FF0000">${last}</span> minutos`;
+      }
+
+      if (hasPhotos && videoPart) {
+        return `A minha equipe vai entregar uma média de <span style="color:#FF0000">${photos}</span> fotos, junto com ${videoPart}${deliveryText}`;
+      } else if (hasPhotos && !videoPart) {
+        return `A minha equipe vai entregar uma média de <span style="color:#FF0000">${photos}</span> fotos${deliveryText}`;
+      } else if (!hasPhotos && videoPart) {
+        return `A minha equipe vai entregar ${videoPart}${deliveryText}`;
+      } else {
+        return deliveryText.startsWith(', ') ? deliveryText.substring(2) : deliveryText;
+      }
+    }
+
+    function resolveThumbnail(slugOrUrl) {
+      if (!slugOrUrl) return `${R2_PUBLIC_BASE}/projetos/ryutherunner/preview.mp4`;
+      const found = r2Projects.find(p => p.slug === slugOrUrl || p.id === slugOrUrl);
+      if (found && found.thumbnail) {
+        let t = found.thumbnail;
+        if (t.startsWith('http://') || t.startsWith('https://')) return t;
+        if (t.startsWith('/')) return `${R2_PUBLIC_BASE}${t}`;
+        return `${R2_PUBLIC_BASE}/projetos/${t}`;
+      }
+      if (typeof slugOrUrl === 'string') {
+        if (slugOrUrl.startsWith('http://') || slugOrUrl.startsWith('https://')) return slugOrUrl;
+        if (slugOrUrl.startsWith('/')) return `${R2_PUBLIC_BASE}${slugOrUrl}`;
+        if (slugOrUrl.endsWith('.mp4')) return `${R2_PUBLIC_BASE}/projetos/${slugOrUrl}`;
+        return `${R2_PUBLIC_BASE}/projetos/${slugOrUrl}/preview.mp4`;
+      }
+      return `${R2_PUBLIC_BASE}/projetos/ryutherunner/preview.mp4`;
+    }
+
+    function captureVideoFrame(slugOrUrl) {
+      return new Promise((resolve) => {
+        const thumbUrl = resolveThumbnail(slugOrUrl);
+        const v = document.createElement('video');
+        v.src = `${thumbUrl}#t=0.5`;
+        v.crossOrigin = 'anonymous';
+        v.muted = true;
+        v.playsInline = true;
+        v.onloadeddata = () => { v.currentTime = 0.5; };
+        v.onseeked = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = v.videoWidth || 720;
+            canvas.height = v.videoHeight || 1280;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(v, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', 0.9));
+          } catch (e) {
+            resolve('');
+          }
+        };
+        v.onerror = () => resolve('');
+        setTimeout(() => resolve(''), 1200);
+      });
+    }
+
+    async function exportPdf(mode) {
+      const d = getFormData();
+      
+      const renderVideoGrid = async (videoString) => {
+        const list = videoString.split(',').filter(f => f.trim() !== '');
+        const frames = await Promise.all(list.map(f => captureVideoFrame(f)));
+        return `
+          <div class="multi-video-wrapper count-${list.length}">
+            ${list.map((slugOrUrl, i) => {
+              const src = frames[i];
+              const thumbUrl = resolveThumbnail(slugOrUrl);
+              if (src) return `<img class="b-frame p-frame" src="${src}">`;
+              return `
+                <div class="video-elem-box">
+                  <video class="b-frame p-frame video-elem" src="${thumbUrl}#t=0.5" preload="metadata" muted playsinline></video>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      };
+
+      const [gridP, gridB, gridBu] = await Promise.all([
+        renderVideoGrid(d.p_video),
+        renderVideoGrid(d.b_video),
+        renderVideoGrid(d.bu_video)
+      ]);
+
+      const printWin = window.open('', '_blank');
+      const pDesc = formatText({ photos: d.p_photos, dur: d.p_dur, del: d.p_del });
+      const bDesc = formatText({ photos: d.b_photos, dur: d.b_dur, del: d.b_del });
+      const buDesc = formatText({ photos: '0', dur: d.bu_dur, del: d.bu_del });
+
+      const pBonusHtml = d.p_bonus && d.p_bonus.trim() !== '' ? `<div style="color:#FF0000; font-size: 8pt; margin-top:4px;">★ BÔNUS: ${d.p_bonus.trim()}</div>` : '';
+      const bBonusHtml = d.b_bonus && d.b_bonus.trim() !== '' ? `<div style="color:#FF0000; font-size: 8pt; margin-top:4px;">★ BÔNUS: ${d.b_bonus.trim()}</div>` : '';
+      const buBonusHtml = d.bu_bonus && d.bu_bonus.trim() !== '' ? `<div style="color:#FF0000; font-size: 8pt; margin-top:4px;">★ BÔNUS: ${d.bu_bonus.trim()}</div>` : '';
+
+      const projectSuffix = d.project && d.project.trim() !== '' ? ` ${d.project.trim()}` : '';
+
+      let cssRules = '';
+      let bodyContent = '';
+
+      if (mode === 'adaptador') {
+        cssRules = `
+          @page { size: 297mm 210mm; margin: 0mm; }
+          html, body {
+            width: 297mm; height: 210mm; margin: 0 !important; padding: 0 !important;
+            background: #0a0a0a !important; color: #ffffff;
+            -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+          }
+          .board-16-9 {
+            width: 285mm; height: 160mm; display: grid; grid-template-columns: repeat(5, 1fr);
+            border: 1px solid #222; background: #000 !important; box-sizing: border-box;
+          }
+          .board-col {
+            padding: 12px 10px; display: flex; flex-direction: column;
+            justify-content: space-between; border-right: 1px solid #1a1a1a;
+            box-sizing: border-box; text-align: center;
+          }
+          .board-col:last-child { border-right: none; }
+          .board-col.light { background: #ffffff !important; color: #0a0a0a !important; }
+          .board-col.dark { background: #0a0a0a !important; color: #ffffff !important; }
+          .b-h1 { font-style: italic; font-size: 20pt; line-height: 0.95; margin-bottom: 4px; }
+          .b-h2 { font-size: 10pt; line-height: 1; opacity: 0.85; margin-bottom: 6px; }
+          .multi-video-wrapper {
+            display: flex; gap: 4px; justify-content: center; align-items: center; margin: auto 0; width: 100%;
+          }
+          .b-frame, .video-elem-box {
+            flex: 1 1 0; max-height: 75mm; aspect-ratio: 9/16; border-radius: 6px;
+            object-fit: cover; background: #000; overflow: hidden;
+          }
+          .video-elem-box video { width: 100%; height: 100%; object-fit: cover; }
+          .b-desc { font-size: 8.5pt; line-height: 1.15; opacity: 0.85; }
+          .b-card { background: #141414 !important; border: 1px solid #282828; border-radius: 8px; padding: 8px 6px; margin-bottom: 6px; }
+          .b-card.feat { border: 1.5px solid #FF0000; }
+          .b-card-title { font-size: 13pt; line-height: 1; color: #fff; }
+          .b-card-price { font-size: 16pt; color: #FF0000 !important; line-height: 1; margin: 3px 0; }
+        `;
+
+        bodyContent = `
+          <div class="board-16-9">
+            <div class="board-col dark" style="justify-content: center;">
+              <h1 class="b-h1" style="font-size: 24pt;">E aí,<br><span style="color:#FF0000;">${d.client}</span>,<br>beleza?</h1>
+              <p class="b-desc" style="font-size: 12pt; margin-top: 10px;">Bora fechar esse orçamento${projectSuffix}?</p>
+            </div>
+
+            <div class="board-col light">
+              <div>
+                <h1 class="b-h1">A minha sugestão <span style="color:#FF0000;">Premium</span></h1>
+                <h2 class="b-h2">${d.p_h2}</h2>
+              </div>
+              ${gridP}
+              <div>
+                <p class="b-desc">${pDesc}</p>
+                ${pBonusHtml}
+              </div>
+            </div>
+
+            <div class="board-col dark">
+              <div>
+                <h1 class="b-h1">A minha sugestão <span style="color:#FF0000;">Base</span></h1>
+                <h2 class="b-h2">${d.b_h2}</h2>
+              </div>
+              ${gridB}
+              <div>
+                <p class="b-desc">${bDesc}</p>
+                ${bBonusHtml}
+              </div>
+            </div>
+
+            <div class="board-col light">
+              <div>
+                <h1 class="b-h1">A minha sugestão <span style="color:#FF0000;">Budget</span></h1>
+                <h2 class="b-h2">${d.bu_h2}</h2>
+              </div>
+              ${gridBu}
+              <div>
+                <p class="b-desc">${buDesc}</p>
+                ${buBonusHtml}
+              </div>
+            </div>
+
+            <div class="board-col dark" style="justify-content: center;">
+              <h1 class="b-h1" style="margin-bottom: 8px;">Investimento</h1>
+              
+              <div class="b-card">
+                <div class="b-card-title">Budget</div>
+                <div class="b-card-price">${d.bu_price}</div>
+                <div style="font-size: 7.5pt; opacity: 0.7;">${d.bu_h2}</div>
+              </div>
+
+              <div class="b-card feat">
+                <div class="b-card-title" style="color: #FF0000;">Premium</div>
+                <div class="b-card-price">${d.p_price}</div>
+                <div style="font-size: 7.5pt; opacity: 0.7;">${d.p_h2}</div>
+              </div>
+
+              <div class="b-card">
+                <div class="b-card-title">Base</div>
+                <div class="b-card-price">${d.b_price}</div>
+                <div style="font-size: 7.5pt; opacity: 0.7;">${d.b_h2}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+      } else {
+        const isLandscape = mode === 'desktop';
+        cssRules = `
+          @page { size: ${isLandscape ? '297mm 210mm' : '210mm 297mm'}; margin: 0mm; }
+          html, body {
+            margin: 0 !important; padding: 0 !important; background: #0a0a0a !important; color: #fff;
+            -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+          }
+          .pdf-page {
+            width: ${isLandscape ? '297mm' : '210mm'}; height: ${isLandscape ? '210mm' : '297mm'};
+            page-break-after: always; page-break-inside: avoid;
+            display: flex; flex-direction: column; justify-content: center;
+            box-sizing: border-box; padding: ${isLandscape ? '30mm 25mm' : '25mm 20mm'};
+            position: relative; text-align: ${isLandscape ? 'left' : 'center'};
+          }
+          .pdf-page.light { background: #ffffff !important; color: #0a0a0a !important; }
+          .pdf-page.dark { background: #0a0a0a !important; color: #ffffff !important; }
+          .grid-layout {
+            display: grid; grid-template-columns: ${isLandscape ? '1.1fr 0.9fr' : '1fr'};
+            align-items: center; gap: 15mm; height: 100%;
+          }
+          .p-h1 { font-style: italic; font-size: ${isLandscape ? '44pt' : '32pt'}; line-height: 0.95; margin-bottom: 6mm; }
+          .p-h2 { font-size: ${isLandscape ? '22pt' : '17pt'}; line-height: 1.05; margin-bottom: 8mm; opacity: 0.85; }
+          .p-desc { font-size: ${isLandscape ? '15pt' : '13pt'}; line-height: 1.2; opacity: 0.85; }
+          .multi-video-wrapper {
+            display: flex; gap: 8px; justify-content: center; align-items: center; width: 100%;
+          }
+          .p-frame, .video-elem-box {
+            height: ${isLandscape ? '125mm' : '90mm'}; flex: 1 1 0; aspect-ratio: 9/16;
+            border-radius: 12px; object-fit: cover; background: #000; overflow: hidden;
+          }
+          .video-elem-box video { width: 100%; height: 100%; object-fit: cover; }
+          .invest-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10mm; width: 100%; margin: 0 auto;
+          }
+          .i-card {
+            background: #141414 !important; border-radius: 12px; padding: 12mm 6mm; text-align: center; border: 1px solid #262626;
+          }
+          .i-card.feat { border: 2px solid #FF0000; }
+          .i-title { font-size: 22pt; color: #fff; }
+          .i-price { font-size: 28pt; color: #FF0000 !important; margin: 4mm 0; line-height: 0.95; }
+        `;
+
+        bodyContent = `
+          <div class="pdf-page dark" style="text-align: center; align-items: center;">
+            <h1 class="p-h1" style="font-size: 55pt;">E aí, <span style="color:#FF0000;">${d.client}</span>, beleza?</h1>
+            <p class="p-desc" style="font-size: 24pt;">Bora fechar esse orçamento${projectSuffix}?</p>
+          </div>
+
+          <div class="pdf-page light">
+            <div class="grid-layout">
+              <div>
+                <h1 class="p-h1">A minha sugestão <span style="color:#FF0000;">Premium</span></h1>
+                <h2 class="p-h2">${d.p_h2}</h2>
+                <p class="p-desc">${pDesc}</p>
+                ${d.p_bonus ? `<div style="color:#FF0000; font-size: 13pt; margin-top:8px;">★ BÔNUS: ${d.p_bonus}</div>` : ''}
+              </div>
+              <div>${gridP}</div>
+            </div>
+          </div>
+
+          <div class="pdf-page dark">
+            <div class="grid-layout">
+              <div>
+                <h1 class="p-h1">A minha sugestão <span style="color:#FF0000;">Base</span></h1>
+                <h2 class="p-h2">${d.b_h2}</h2>
+                <p class="p-desc">${bDesc}</p>
+                ${d.b_bonus ? `<div style="color:#FF0000; font-size: 13pt; margin-top:8px;">★ BÔNUS: ${d.b_bonus}</div>` : ''}
+              </div>
+              <div>${gridB}</div>
+            </div>
+          </div>
+
+          <div class="pdf-page light">
+            <div class="grid-layout">
+              <div>
+                <h1 class="p-h1">A minha sugestão <span style="color:#FF0000;">Budget</span></h1>
+                <h2 class="p-h2">${d.bu_h2}</h2>
+                <p class="p-desc">${buDesc}</p>
+                ${d.bu_bonus ? `<div style="color:#FF0000; font-size: 13pt; margin-top:8px;">★ BÔNUS: ${d.bu_bonus}</div>` : ''}
+              </div>
+              <div>${gridBu}</div>
+            </div>
+          </div>
+
+          <div class="pdf-page dark" style="text-align: center; align-items: center;">
+            <h1 class="p-h1" style="margin-bottom: 12mm;">Investimento</h1>
+            <div class="invest-grid">
+              <div class="i-card">
+                <div class="i-title">Budget</div>
+                <div style="font-size: 11pt; opacity: 0.7; color:#fff;">${d.bu_h2}</div>
+                <div class="i-price">${d.bu_price}</div>
+              </div>
+              <div class="i-card feat">
+                <div class="i-title" style="color:#FF0000;">Premium</div>
+                <div style="font-size: 11pt; opacity: 0.7; color:#fff;">${d.p_h2}</div>
+                <div class="i-price">${d.p_price}</div>
+              </div>
+              <div class="i-card">
+                <div class="i-title">Base</div>
+                <div style="font-size: 11pt; opacity: 0.7; color:#fff;">${d.b_h2}</div>
+                <div class="i-price">${d.b_price}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      printWin.document.write(`
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+          <meta charset="UTF-8">
+          <title>Orçamento - ${d.client} | Nicolas Godoy</title>
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com">
+          <link href="https://fonts.googleapis.com/css2?family=League+Gothic:ital@0;1&display=swap" rel="stylesheet">
+          <style>
+            * { margin:0; padding:0; box-sizing:border-box; font-family:'League Gothic', sans-serif; text-transform:uppercase; letter-spacing:1px; }
+            ${cssRules}
+          </style>
+        </head>
+        <body>
+          ${bodyContent}
+          <script>
+            async function prepareAndPrint() {
+              const videos = document.querySelectorAll('video.video-elem');
+              for (const v of videos) {
+                try {
+                  v.currentTime = 0.5;
+                  await new Promise(r => {
+                    if (v.readyState >= 2) return r();
+                    v.onloadeddata = r;
+                    v.onseeked = r;
+                    setTimeout(r, 600);
+                  });
+                } catch(e){}
+              }
+              setTimeout(() => {
+                window.print();
+              }, 600);
+            }
+            window.onload = prepareAndPrint;
+          <\/script>
+        </body>
+        </html>
+      `);
+      printWin.document.close();
+    }
+
+    loadR2Library();
+  </script>
+</body>
+</html>
